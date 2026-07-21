@@ -1,11 +1,3 @@
-# 🌌 Premium Web Portfolio Starter
-
-A state-of-the-art web portfolio template designed for ultra-smooth scroll performance and advanced visual effects. Powered by **React 19**, **TypeScript**, **Vite**, **Tailwind CSS v4**, **GSAP**, and **Lenis**.
-
-This portfolio goes beyond the basics to deliver a premium user experience featuring modern styling aesthetics, interactive animations, and responsive layouts.
-
----
-
 ## 🚀 Key Features & Highlights
 
 - **Ultra-Smooth Scrolling**: Powered by [Lenis](https://github.com/darkroomengineering/lenis) and synchronized with GSAP's render loop for zero-lag animations.
