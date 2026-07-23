@@ -65,9 +65,11 @@ function App() {
       {/* Floating Dock Navigation */}
       <FloatingDock activeSection={activeSection} scrollToSection={scrollToSection} />
 
+      {/* Solid Top Layer Hero Card */}
+      <HeroSection scrollToSection={scrollToSection} />
+
       {/* Main Content Containers */}
-      <main className="max-w-6xl mx-auto px-6 pt-16">
-        <HeroSection scrollToSection={scrollToSection} />
+      <main className="max-w-6xl mx-auto px-6 pt-8">
         <AboutSection />
         <ProjectsSection />
         <SkillsSection />
