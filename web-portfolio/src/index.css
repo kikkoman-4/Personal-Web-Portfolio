@@ -20,4 +20,13 @@ html.lenis-smooth body {
 
 body {
   margin: 0;
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background-color: #020617;
+    color: #e2e8f0;
+  }
 }

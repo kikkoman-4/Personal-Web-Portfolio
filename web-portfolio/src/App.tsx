@@ -42,7 +42,7 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen text-slate-800 dark:text-slate-200 transition-colors duration-300">
+    <div className="relative min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300">
       
       {/* Immersive liquid morphism animated background glows */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
