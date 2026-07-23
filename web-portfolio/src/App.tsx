@@ -15,14 +15,23 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['hero', 'about', 'projects', 'skills', 'contact'];
-      const scrollPos = window.scrollY + 200;
+      
+      // 1. If at the bottom of the page, activate the last section ('contact')
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
+      if (isAtBottom) {
+        setActiveSection('contact');
+        return;
+      }
 
-      for (const section of sections) {
+      // 2. Determine active section based on viewport position (checking backwards)
+      const scrollPos = window.scrollY + window.innerHeight / 3;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
         const el = document.getElementById(section);
         if (el) {
           const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
+          if (scrollPos >= top - 100) {
             setActiveSection(section);
             break;
           }
@@ -31,6 +40,7 @@ function App() {
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Trigger once on mount
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

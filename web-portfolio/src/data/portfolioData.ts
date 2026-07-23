@@ -9,16 +9,16 @@
 // 1. Personal & Contact Information
 // -----------------------------------------------------------------------------
 export const PERSONAL_INFO = {
-  name: "Aa Kikz H. Afable",
+  name: "AA Kikz H. Afable",
   title: "Junior Full-Stack Developer",
   statusBadge: "Available for freelance & contract roles",
   bio: "I build clean, high-performance web applications and logic-heavy 2D games, bringing complex projects from rough ideas to finished products.",
-  
+
   // Contact Info
   email: "kikzafable@gmail.com",
   phone: "(+63) 956-733-1807",
   phoneRaw: "+639567331807",
-  location: "Vista Verde, Brgy. Mayowe, Tayabas City",
+  location: "Vista Verde, Brgy. Mayowe, Tayabas City, Quezon",
 
   // Social Links
   socials: {
