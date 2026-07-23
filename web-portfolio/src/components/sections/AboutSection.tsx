@@ -1,11 +1,12 @@
 import { User, BookOpen, Briefcase, Award } from 'lucide-react';
 import { ABOUT_CONTENT, STRENGTHS, EDUCATION, LANGUAGES, EXPERIENCE, CERTIFICATIONS } from '../../data/portfolioData';
+import AnimatedSection from '../ui/AnimatedSection';
 
 export default function AboutSection() {
   return (
     <section id="about" className="py-24 scroll-mt-16">
       <div className="grid md:grid-cols-12 gap-12 items-start">
-        <div className="md:col-span-5 md:sticky md:top-24 space-y-10 text-left">
+        <AnimatedSection direction="left" className="md:col-span-5 md:sticky md:top-24 space-y-10 text-left">
           <div>
             <div className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-sm font-semibold uppercase tracking-wider mb-3">
               <User size={16} />
@@ -62,9 +63,9 @@ export default function AboutSection() {
               ))}
             </div>
           </div>
-        </div>
+        </AnimatedSection>
 
-        <div className="md:col-span-7 space-y-12 text-left">
+        <AnimatedSection direction="right" className="md:col-span-7 space-y-12 text-left">
           {/* Professional Experience */}
           <div>
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
@@ -106,7 +107,7 @@ export default function AboutSection() {
               ))}
             </div>
           </div>
-        </div>
+        </AnimatedSection>
       </div>
     </section>
   );

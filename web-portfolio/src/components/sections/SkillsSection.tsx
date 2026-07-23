@@ -1,11 +1,12 @@
 import { Cpu, Layers } from 'lucide-react';
 import { SKILLS, SKILLS_CONTENT } from '../../data/portfolioData';
+import AnimatedSection from '../ui/AnimatedSection';
 
 export default function SkillsSection() {
   return (
     <section id="skills" className="py-24 scroll-mt-16 text-left">
       <div className="grid md:grid-cols-12 gap-12 items-center">
-        <div className="md:col-span-5">
+        <AnimatedSection direction="left" className="md:col-span-5">
           <div className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-sm font-semibold uppercase tracking-wider mb-3">
             <Cpu size={16} />
             <span>{SKILLS_CONTENT.tagline}</span>
@@ -16,9 +17,9 @@ export default function SkillsSection() {
           <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
             {SKILLS_CONTENT.subtitle}
           </p>
-        </div>
+        </AnimatedSection>
 
-        <div className="md:col-span-7 grid gap-6">
+        <AnimatedSection direction="right" className="md:col-span-7 grid gap-6">
           {SKILLS.map((cat, index) => (
             <div key={index} className="bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6">
               <h3 className="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-4 flex items-center gap-2">
@@ -37,7 +38,7 @@ export default function SkillsSection() {
               </div>
             </div>
           ))}
-        </div>
+        </AnimatedSection>
       </div>
     </section>
   );

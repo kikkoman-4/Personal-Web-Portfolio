@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { Github, Linkedin } from '../ui/Icons';
 import { PERSONAL_INFO, CONTACT_CONTENT } from '../../data/portfolioData';
+import AnimatedSection from '../ui/AnimatedSection';
 
 export default function ContactSection() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -25,7 +26,7 @@ export default function ContactSection() {
   return (
     <section id="contact" className="py-24 scroll-mt-16 text-left mb-16">
       <div className="grid md:grid-cols-12 gap-12">
-        <div className="md:col-span-5 space-y-6">
+        <AnimatedSection direction="left" className="md:col-span-5 space-y-6">
           <div>
             <div className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-sm font-semibold uppercase tracking-wider mb-3">
               <Mail size={16} />
@@ -61,9 +62,9 @@ export default function ContactSection() {
               </a>
             </div>
           </div>
-        </div>
+        </AnimatedSection>
 
-        <div className="md:col-span-7">
+        <AnimatedSection direction="right" className="md:col-span-7">
           <form onSubmit={handleContactSubmit} className="space-y-4 bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 md:p-8">
             {formSubmitted ? (
               <div className="py-12 text-center">
@@ -125,7 +126,7 @@ export default function ContactSection() {
               </>
             )}
           </form>
-        </div>
+        </AnimatedSection>
       </div>
     </section>
   );
