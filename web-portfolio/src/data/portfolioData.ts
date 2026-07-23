@@ -1,10 +1,82 @@
-// Projects Data from Resume
+// =============================================================================
+// PORTFOLIO CONFIGURATION & DATA
+// All personal information, social links, contact info, section copy, and 
+// portfolio items are centralized here. Update these variables to customize 
+// your portfolio without editing individual component files!
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// 1. Personal & Contact Information
+// -----------------------------------------------------------------------------
+export const PERSONAL_INFO = {
+  name: "Aa Kikz H. Afable",
+  title: "Junior Full-Stack Developer",
+  statusBadge: "Available for freelance & contract roles",
+  bio: "I build clean, high-performance web applications and logic-heavy 2D games, bringing complex projects from rough ideas to finished products.",
+  
+  // Contact Info
+  email: "kikzafable@gmail.com",
+  phone: "(+63) 956-733-1807",
+  phoneRaw: "+639567331807",
+  location: "Vista Verde, Brgy. Mayowe, Tayabas City",
+
+  // Social Links
+  socials: {
+    github: "https://github.com/kikkoman-4",
+    linkedin: "https://linkedin.com/in/kikz-afable",
+  }
+};
+
+// -----------------------------------------------------------------------------
+// 2. Section Texts & Headings
+// -----------------------------------------------------------------------------
+export const HERO_CONTENT = {
+  badge: PERSONAL_INFO.statusBadge,
+  name: PERSONAL_INFO.name,
+  title: PERSONAL_INFO.title,
+  subtitle: PERSONAL_INFO.bio,
+  ctaPrimary: "Explore My Work",
+  ctaSecondary: "Get in Touch"
+};
+
+export const ABOUT_CONTENT = {
+  tagline: "About Me",
+  title: "My professional path & design principles",
+  paragraphs: [
+    "I’m a Full-Stack Developer with a deep focus on web and game development. I spend most of my time building clean, high-performance web applications and logic-heavy 2D games.",
+    "Whether I’m wiring up backend databases, crafting smooth user interfaces, or programming core gameplay systems, I love taking a complex project from a rough idea all the way to a finished, working product."
+  ]
+};
+
+export const PROJECTS_CONTENT = {
+  tagline: "Featured Works",
+  title: "Innovative design solutions",
+  subtitle: "A curated selection of custom applications designed from scratch using cutting edge web stacks."
+};
+
+export const SKILLS_CONTENT = {
+  tagline: "My Stack",
+  title: "Engineered for speed, built to scale",
+  subtitle: "I maintain expertise across multiple technology disciplines. From frontend rendering mechanisms to robust backend structures, these tools form my daily development pipeline."
+};
+
+export const CONTACT_CONTENT = {
+  tagline: "Contact",
+  title: "Start a conversation",
+  subtitle: "Have an project in mind or looking for a developer to join your engineering crew? Let's construct something awesome together.",
+  successTitle: "Message Sent!",
+  successMessage: "Thank you for reaching out. I'll get back to you as soon as possible."
+};
+
+// -----------------------------------------------------------------------------
+// 3. Projects List
+// -----------------------------------------------------------------------------
 export const PROJECTS = [
   {
     title: "Wine Century Bros Website",
     description: "A Next.js and Supabase web application built from scratch, integrating the Google Sheets API for seamless inventory management, backend Zod data validation, and smooth GSAP/Lenis scrolling animations.",
     tags: ["Next.js", "Supabase", "Google Sheets API", "Zod", "GSAP", "Lenis"],
-    github: "https://github.com/kikkoman-4",
+    github: PERSONAL_INFO.socials.github,
     demo: "https://example.com",
     category: "Freelance Work"
   },
@@ -12,7 +84,7 @@ export const PROJECTS = [
     title: "Hive Mind",
     description: "Developed robust game backend infrastructure and mobile optimizations with high-performance object pooling for projectiles/collectibles, throttled enemy AI decision-making ticks, and secure JSON local saves for stable 60 FPS gameplay.",
     tags: ["C#", "Unity", "Game Dev", "JSON", "Optimization"],
-    github: "https://github.com/kikkoman-4",
+    github: PERSONAL_INFO.socials.github,
     demo: "https://example.com",
     category: "Game Development"
   },
@@ -20,7 +92,7 @@ export const PROJECTS = [
     title: "HildrStudios Website",
     description: "A responsive digital storefront for booking creative services (web development, photography, videography) built using Next.js and Tailwind CSS with custom React state animations.",
     tags: ["Next.js", "React", "TailwindCSS", "UI/UX", "Responsive Design"],
-    github: "https://github.com/kikkoman-4",
+    github: PERSONAL_INFO.socials.github,
     demo: "https://example.com",
     category: "Freelance Work"
   },
@@ -28,13 +100,15 @@ export const PROJECTS = [
     title: "Bagong Cotta LGU Website",
     description: "A PHP-based public service portal digitizing administrative dashboards, online certification requests, and local community news hubs with a focus on responsive and accessible interfaces.",
     tags: ["PHP", "JavaScript", "MySQL", "LGU Portal", "Bootstrap"],
-    github: "https://github.com/kikkoman-4",
+    github: PERSONAL_INFO.socials.github,
     demo: "https://example.com",
     category: "LGU Web App"
   }
 ];
 
-// Experience Timeline
+// -----------------------------------------------------------------------------
+// 4. Professional Experience
+// -----------------------------------------------------------------------------
 export const EXPERIENCE = [
   {
     role: "Freelance Full-Stack Developer",
@@ -62,7 +136,9 @@ export const EXPERIENCE = [
   }
 ];
 
-// Education History
+// -----------------------------------------------------------------------------
+// 5. Education History
+// -----------------------------------------------------------------------------
 export const EDUCATION = [
   {
     degree: "Bachelor of Science in Computer Science",
@@ -76,7 +152,9 @@ export const EDUCATION = [
   }
 ];
 
-// Certifications & Seminars
+// -----------------------------------------------------------------------------
+// 6. Certifications & Seminars
+// -----------------------------------------------------------------------------
 export const CERTIFICATIONS = [
   {
     title: "Google Network Security Specializations",
@@ -105,7 +183,9 @@ export const CERTIFICATIONS = [
   }
 ];
 
-// Core Strengths
+// -----------------------------------------------------------------------------
+// 7. Core Strengths
+// -----------------------------------------------------------------------------
 export const STRENGTHS = [
   "Performance Optimization",
   "Full-Stack Architecture",
@@ -114,13 +194,17 @@ export const STRENGTHS = [
   "Cross-Team Collaboration"
 ];
 
-// Languages
+// -----------------------------------------------------------------------------
+// 8. Languages
+// -----------------------------------------------------------------------------
 export const LANGUAGES = [
   { name: "English", level: "Fluent" },
   { name: "Filipino", level: "Fluent" }
 ];
 
-// Skills Data
+// -----------------------------------------------------------------------------
+// 9. Technical Skills
+// -----------------------------------------------------------------------------
 export const SKILLS = [
   { category: "Front end", items: ["TypeScript", "JavaScript", "Next.js", "React", "Tailwind CSS", "GSAP", "Framer Motion", "HTML5/CSS3"] },
   { category: "Backend & Databases", items: ["Node.js", "C#", "Python", "PHP", "Java", "Supabase", "PostgreSQL", "MySQL", "RESTful APIs"] },

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { Github, Linkedin } from '../ui/Icons';
+import { PERSONAL_INFO, CONTACT_CONTENT } from '../../data/portfolioData';
 
 export default function ContactSection() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -28,34 +29,34 @@ export default function ContactSection() {
           <div>
             <div className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-sm font-semibold uppercase tracking-wider mb-3">
               <Mail size={16} />
-              <span>Contact</span>
+              <span>{CONTACT_CONTENT.tagline}</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-              Start a conversation
+              {CONTACT_CONTENT.title}
             </h2>
             <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-8">
-              Have an project in mind or looking for a developer to join your engineering crew? Let's construct something awesome together.
+              {CONTACT_CONTENT.subtitle}
             </p>
           </div>
 
           <div className="space-y-4">
-            <a href="mailto:kikzafable@gmail.com" className="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <a href={`mailto:${PERSONAL_INFO.email}`} className="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
               <Mail size={18} />
-              <span className="text-sm font-medium">kikzafable@gmail.com</span>
+              <span className="text-sm font-medium">{PERSONAL_INFO.email}</span>
             </a>
-            <a href="tel:+639567331807" className="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <a href={`tel:${PERSONAL_INFO.phoneRaw}`} className="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
               <Phone size={18} />
-              <span className="text-sm font-medium">(+63) 956-733-1807</span>
+              <span className="text-sm font-medium">{PERSONAL_INFO.phone}</span>
             </a>
             <div className="flex items-center gap-3 text-slate-600 dark:text-slate-400">
               <MapPin size={18} />
-              <span className="text-sm font-medium">Vista Verde, Brgy. Mayowe, Tayabas City</span>
+              <span className="text-sm font-medium">{PERSONAL_INFO.location}</span>
             </div>
             <div className="flex items-center gap-4 pt-4">
-              <a href="https://github.com/kikkoman-4" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors" aria-label="GitHub Profile">
+              <a href={PERSONAL_INFO.socials.github} target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors" aria-label="GitHub Profile">
                 <Github size={20} />
               </a>
-              <a href="https://linkedin.com/in/kikz-afable" target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors" aria-label="LinkedIn Profile">
+              <a href={PERSONAL_INFO.socials.linkedin} target="_blank" rel="noopener noreferrer" className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors" aria-label="LinkedIn Profile">
                 <Linkedin size={20} />
               </a>
             </div>
@@ -69,9 +70,9 @@ export default function ContactSection() {
                 <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-950/55 text-emerald-600 dark:text-emerald-400 mb-4">
                   <Send size={20} />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">Message Sent!</h3>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{CONTACT_CONTENT.successTitle}</h3>
                 <p className="text-slate-600 dark:text-slate-400 text-sm max-w-sm mx-auto">
-                  Thank you for reaching out. I'll get back to you as soon as possible.
+                  {CONTACT_CONTENT.successMessage}
                 </p>
               </div>
             ) : (

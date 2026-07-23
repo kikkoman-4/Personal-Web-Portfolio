@@ -1,5 +1,5 @@
 import { FolderGit, ExternalLink } from 'lucide-react';
-import { PROJECTS } from '../../data/portfolioData';
+import { PROJECTS, PROJECTS_CONTENT } from '../../data/portfolioData';
 import { Github } from '../ui/Icons';
 
 export default function ProjectsSection() {
@@ -9,14 +9,14 @@ export default function ProjectsSection() {
         <div>
           <div className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-sm font-semibold uppercase tracking-wider mb-3">
             <FolderGit size={16} />
-            <span>Featured Works</span>
+            <span>{PROJECTS_CONTENT.tagline}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Innovative design solutions
+            {PROJECTS_CONTENT.title}
           </h2>
         </div>
         <p className="text-slate-600 dark:text-slate-400 max-w-md">
-          A curated selection of custom applications designed from scratch using cutting edge web stacks.
+          {PROJECTS_CONTENT.subtitle}
         </p>
       </div>
 

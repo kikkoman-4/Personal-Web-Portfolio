@@ -1,5 +1,5 @@
 import { User, BookOpen, Briefcase, Award } from 'lucide-react';
-import { STRENGTHS, EDUCATION, LANGUAGES, EXPERIENCE, CERTIFICATIONS } from '../../data/portfolioData';
+import { ABOUT_CONTENT, STRENGTHS, EDUCATION, LANGUAGES, EXPERIENCE, CERTIFICATIONS } from '../../data/portfolioData';
 
 export default function AboutSection() {
   return (
@@ -9,17 +9,16 @@ export default function AboutSection() {
           <div>
             <div className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-sm font-semibold uppercase tracking-wider mb-3">
               <User size={16} />
-              <span>About Me</span>
+              <span>{ABOUT_CONTENT.tagline}</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
-              My professional path & design principles
+              {ABOUT_CONTENT.title}
             </h2>
-            <p className="mt-6 text-slate-600 dark:text-slate-400 leading-relaxed">
-              I’m a Full-Stack Developer with a deep focus on web and game development. I spend most of my time building clean, high-performance web applications and logic-heavy 2D games.
-            </p>
-            <p className="mt-4 text-slate-600 dark:text-slate-400 leading-relaxed">
-              Whether I’m wiring up backend databases, crafting smooth user interfaces, or programming core gameplay systems, I love taking a complex project from a rough idea all the way to a finished, working product.
-            </p>
+            {ABOUT_CONTENT.paragraphs.map((paragraph, pIdx) => (
+              <p key={pIdx} className="mt-4 text-slate-600 dark:text-slate-400 leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
           </div>
 
           {/* Core Strengths */}

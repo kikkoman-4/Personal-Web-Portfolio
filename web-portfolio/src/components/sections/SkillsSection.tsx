@@ -1,5 +1,5 @@
 import { Cpu, Layers } from 'lucide-react';
-import { SKILLS } from '../../data/portfolioData';
+import { SKILLS, SKILLS_CONTENT } from '../../data/portfolioData';
 
 export default function SkillsSection() {
   return (
@@ -8,13 +8,13 @@ export default function SkillsSection() {
         <div className="md:col-span-5">
           <div className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 text-sm font-semibold uppercase tracking-wider mb-3">
             <Cpu size={16} />
-            <span>My Stack</span>
+            <span>{SKILLS_CONTENT.tagline}</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
-            Engineered for speed, built to scale
+            {SKILLS_CONTENT.title}
           </h2>
           <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-            I maintain expertise across multiple technology disciplines. From frontend rendering mechanisms to robust backend structures, these tools form my daily development pipeline.
+            {SKILLS_CONTENT.subtitle}
           </p>
         </div>
 
