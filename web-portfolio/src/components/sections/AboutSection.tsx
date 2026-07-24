@@ -1,5 +1,5 @@
-import { User, BookOpen, Briefcase, Award } from 'lucide-react';
-import { ABOUT_CONTENT, STRENGTHS, EDUCATION, LANGUAGES, EXPERIENCE, CERTIFICATIONS } from '../../data/portfolioData';
+import { User, BookOpen, Briefcase } from 'lucide-react';
+import { ABOUT_CONTENT, STRENGTHS, EDUCATION, LANGUAGES, EXPERIENCE } from '../../data/portfolioData';
 import AnimatedSection from '../ui/AnimatedSection';
 
 export default function AboutSection() {
@@ -81,28 +81,6 @@ export default function AboutSection() {
                   <h4 className="text-lg font-bold text-slate-900 dark:text-white">{exp.role}</h4>
                   <div className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">{exp.company}</div>
                   <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">{exp.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Certifications & Seminars */}
-          <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2 mb-6">
-              <Award size={18} />
-              <span>Certifications & Seminars</span>
-            </h3>
-            
-            <div className="space-y-4">
-              {CERTIFICATIONS.map((cert, index) => (
-                <div key={index} className="bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/80 rounded-xl p-4 flex justify-between items-start gap-4 hover:border-indigo-300 dark:hover:border-indigo-900/50 transition-colors">
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">{cert.title}</h4>
-                    <div className="text-xs text-slate-500 dark:text-slate-400">{cert.issuer}</div>
-                  </div>
-                  <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 whitespace-nowrap bg-indigo-50 dark:bg-indigo-950/40 px-2.5 py-1 rounded-md">
-                    {cert.date}
-                  </span>
                 </div>
               ))}
             </div>

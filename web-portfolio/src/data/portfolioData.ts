@@ -54,6 +54,12 @@ export const PROJECTS_CONTENT = {
   subtitle: "A curated selection of custom applications designed from scratch using cutting edge web stacks."
 };
 
+export const CERTIFICATIONS_CONTENT = {
+  tagline: "Credentials",
+  title: "Certifications & Seminars",
+  subtitle: "A verified collection of professional certificates and attended seminars. Click any card to view the full certificate PDF."
+};
+
 export const SKILLS_CONTENT = {
   tagline: "My Stack",
   title: "Engineered for speed, built to scale",
@@ -163,27 +169,42 @@ export const CERTIFICATIONS = [
   {
     title: "Google Network Security Specializations",
     issuer: "Google Certification",
-    date: "March 2026"
+    category: "Google",
+    date: "March 2026",
+    pdf: "/certs/google-network-security.pdf",
+    verifyUrl: "https://coursera.org"
   },
   {
     title: "Google AI Specialization",
     issuer: "Google Certification",
-    date: "March 2026"
+    category: "Google",
+    date: "March 2026",
+    pdf: "/certs/google-ai-specialization.pdf",
+    verifyUrl: "https://coursera.org"
   },
   {
     title: "Google Data Analysis with Python",
     issuer: "Google Certification",
-    date: "March 2026"
+    category: "Google",
+    date: "March 2026",
+    pdf: "/certs/google-data-analysis.pdf",
+    verifyUrl: "https://coursera.org"
   },
   {
     title: "Foundations of Cybersecurity",
     issuer: "Google Certification",
-    date: "March 2026"
+    category: "Google",
+    date: "March 2026",
+    pdf: "/certs/foundations-cybersecurity.pdf",
+    verifyUrl: "https://coursera.org"
   },
   {
     title: "Globe Developers Conference 2025",
     issuer: "BGC Globe Tower, Taguig",
-    date: "October 9, 2025"
+    category: "Seminars",
+    date: "October 9, 2025",
+    pdf: "/certs/globe-devcon-2025.pdf",
+    verifyUrl: ""
   }
 ];
 

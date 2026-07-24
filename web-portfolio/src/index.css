@@ -30,3 +30,34 @@ body {
     color: #e2e8f0;
   }
 }
+
+/* ── Skeleton shimmer animation ─────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(148, 163, 184, 0.15) 25%,
+    rgba(148, 163, 184, 0.30) 50%,
+    rgba(148, 163, 184, 0.15) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+@media (prefers-color-scheme: dark) {
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(100, 116, 139, 0.18) 25%,
+      rgba(100, 116, 139, 0.36) 50%,
+      rgba(100, 116, 139, 0.18) 75%
+    );
+    background-size: 800px 100%;
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+}
+
