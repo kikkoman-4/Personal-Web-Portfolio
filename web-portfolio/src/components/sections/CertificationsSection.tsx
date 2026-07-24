@@ -43,7 +43,7 @@ export default function CertificationsSection() {
   const isImage = (path: string) => Boolean(path.match(/\.(png|jpe?g|webp|gif|svg)$/i));
 
   return (
-    <section id="certifications" className="py-20 scroll-mt-16 w-full text-left">
+    <section id="certifications" className="py-20 scroll-mt-16 w-full text-left snap-start snap-always">
       <div className="px-4 sm:px-6 lg:px-12 2xl:px-20 max-w-[1700px] mx-auto">
         
         {/* ── Section Header ────────────────────────────────────────────── */}

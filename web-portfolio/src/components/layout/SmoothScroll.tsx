@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Register ScrollTrigger plugin with GSAP
 gsap.registerPlugin(ScrollTrigger);
 
 interface LenisContextValue {
@@ -14,24 +13,26 @@ const LenisContext = createContext<LenisContextValue>({ lenis: null });
 
 export const useLenis = () => {
   const context = useContext(LenisContext);
-  if (!context) {
-    throw new Error('useLenis must be used within a SmoothScrollProvider');
-  }
+  if (!context) throw new Error('useLenis must be used within SmoothScrollProvider');
   return context.lenis;
 };
 
 interface SmoothScrollProps {
   children: React.ReactNode;
+  snapSections?: string[];
 }
 
-export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
-  const lenisRef = useRef<Lenis | null>(null);
+export const SmoothScroll: React.FC<SmoothScrollProps> = ({
+  children,
+  snapSections = [],
+}) => {
+  const [lenis, setLenis] = useState<Lenis | null>(null);
 
   useEffect(() => {
-    // Instantiate Lenis
-    const lenis = new Lenis({
+    // ── Lenis setup ───────────────────────────────────────────────────────
+    const lenisInstance = new Lenis({
       duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // https://www.desmos.com/calculator/brc1gd42qi
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
@@ -39,31 +40,95 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
       touchMultiplier: 2,
     });
 
-    lenisRef.current = lenis;
+    setLenis(lenisInstance);
 
-    // Synchronize Lenis scroll with GSAP's ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
+    lenisInstance.on('scroll', ScrollTrigger.update);
 
-    // Tell GSAP to use Lenis's requestAnimationFrame pipeline
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
-    // Disable lag smoothing in GSAP to prevent synchronization jitter
+    const updateTicker = (time: number) => lenisInstance.raf(time * 1000);
+    gsap.ticker.add(updateTicker);
     gsap.ticker.lagSmoothing(0);
 
-    return () => {
-      // Clean up on unmount
-      lenis.destroy();
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
-      lenisRef.current = null;
+    // ── Section snapping via wheel+RAF (bypasses Lenis event API entirely) ─
+    let snapping = false;
+    let wheelTimer: ReturnType<typeof setTimeout> | null = null;
+    let rafId: number | null = null;
+
+    const checkSnap = () => {
+      if (snapping || snapSections.length === 0) return;
+      const vh = window.innerHeight;
+
+      for (const id of snapSections) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top;
+
+        // Snap when section header is within top 45% of viewport but not yet locked (>10px)
+        if (top > 10 && top < vh * 0.45) {
+          snapping = true;
+          lenisInstance.scrollTo(el, {
+            offset: -20,
+            duration: 0.75,
+            easing: (t: number) => 1 - Math.pow(1 - t, 3),
+            onComplete: () => {
+              setTimeout(() => { snapping = false; }, 400);
+            },
+          });
+          return;
+        }
+      }
     };
-  }, []);
+
+    // Poll window.scrollY via RAF until it is stable (Lenis finished animating)
+    const waitForSettle = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      let prev = window.scrollY;
+      let stableFrames = 0;
+
+      const tick = () => {
+        const curr = window.scrollY;
+        if (Math.abs(curr - prev) < 0.5) {
+          stableFrames++;
+          if (stableFrames >= 6) {   // ~100ms at 60fps — Lenis has finished
+            checkSnap();
+            return;
+          }
+        } else {
+          stableFrames = 0;
+        }
+        prev = curr;
+        rafId = requestAnimationFrame(tick);
+      };
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    // Kick off settle-wait 100ms after the last wheel event fires
+    const onWheel = () => {
+      if (snapping) return;
+      if (wheelTimer) clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(waitForSettle, 100);
+    };
+
+    if (snapSections.length > 0) {
+      window.addEventListener('wheel', onWheel, { passive: true });
+    }
+
+    return () => {
+      if (wheelTimer) clearTimeout(wheelTimer);
+      if (rafId) cancelAnimationFrame(rafId);
+      if (snapSections.length > 0) {
+        window.removeEventListener('wheel', onWheel);
+      }
+      lenisInstance.off('scroll', ScrollTrigger.update);
+      lenisInstance.destroy();
+      gsap.ticker.remove(updateTicker);
+      setLenis(null);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [snapSections.join(',')]);
 
   return (
-    <LenisContext.Provider value={{ lenis: lenisRef.current }}>
+    <LenisContext.Provider value={{ lenis }}>
       {children}
     </LenisContext.Provider>
   );

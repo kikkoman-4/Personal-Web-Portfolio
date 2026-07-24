@@ -6,9 +6,8 @@ import { SmoothScroll } from './components/layout/SmoothScroll.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <SmoothScroll>
+    <SmoothScroll snapSections={['certifications', 'contact']}>
       <App />
     </SmoothScroll>
   </StrictMode>,
 )
-

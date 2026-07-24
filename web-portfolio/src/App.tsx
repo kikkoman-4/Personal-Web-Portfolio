@@ -7,10 +7,15 @@ import SkillsSection from './components/sections/SkillsSection';
 import CertificationsSection from './components/sections/CertificationsSection';
 import ContactSection from './components/sections/ContactSection';
 import Footer from './components/layout/Footer';
+import { useLenis } from './components/layout/SmoothScroll';
+
 import './App.css';
 
 function App() {
   const [activeSection, setActiveSection] = useState('hero');
+  const lenis = useLenis();
+
+
 
   // Handle active navigation highlighting on scroll
   useEffect(() => {
@@ -46,9 +51,13 @@ function App() {
   }, []);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (lenis) {
+      lenis.scrollTo(`#${id}`, { offset: -30, duration: 1.2 });
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
