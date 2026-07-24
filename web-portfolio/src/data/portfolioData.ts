@@ -186,46 +186,315 @@ export const EDUCATION = [
 // 6. Certifications & Seminars
 // -----------------------------------------------------------------------------
 export const CERTIFICATIONS = [
-  {
-    title: "Google Network Security Specializations",
-    issuer: "Google Certification",
-    category: "Google",
-    date: "March 2026",
-    pdf: "/certs/google-network-security.pdf",
-    verifyUrl: "https://coursera.org"
-  },
+  // ── Google AI ────────────────────────────────────────────────────────────
   {
     title: "Google AI Specialization",
-    issuer: "Google Certification",
-    category: "Google",
+    issuer: "Google / Coursera",
+    category: "Google AI",
     date: "March 2026",
-    pdf: "/certs/google-ai-specialization.pdf",
+    pdf: "/certs/Google AI.pdf",
     verifyUrl: "https://coursera.org"
   },
   {
-    title: "Google Data Analysis with Python",
-    issuer: "Google Certification",
-    category: "Google",
+    title: "AI Fundamentals",
+    issuer: "Google / Coursera",
+    category: "Google AI",
     date: "March 2026",
-    pdf: "/certs/google-data-analysis.pdf",
+    pdf: "/certs/AI Fundamentals.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "AI for App Building",
+    issuer: "Google / Coursera",
+    category: "Google AI",
+    date: "March 2026",
+    pdf: "/certs/AI for App Building.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "AI for Brainstorming and Planning",
+    issuer: "Google / Coursera",
+    category: "Google AI",
+    date: "March 2026",
+    pdf: "/certs/AI for Brainstorming and Planning.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "AI for Content Creation",
+    issuer: "Google / Coursera",
+    category: "Google AI",
+    date: "March 2026",
+    pdf: "/certs/AI for Content Creation.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "AI for Data Analysis",
+    issuer: "Google / Coursera",
+    category: "Google AI",
+    date: "March 2026",
+    pdf: "/certs/AI for Data Analysis.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "AI for Writing and Communicating",
+    issuer: "Google / Coursera",
+    category: "Google AI",
+    date: "March 2026",
+    pdf: "/certs/AI for Writing and Communicating.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+
+  // ── Google Cybersecurity ─────────────────────────────────────────────────
+  {
+    title: "Google Network Security",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
+    date: "March 2026",
+    pdf: "/certs/Google Network Security.pdf",
     verifyUrl: "https://coursera.org"
   },
   {
     title: "Foundations of Cybersecurity",
-    issuer: "Google Certification",
-    category: "Google",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
     date: "March 2026",
-    pdf: "/certs/foundations-cybersecurity.pdf",
+    pdf: "/certs/Foundations of Cybersecurity.pdf",
     verifyUrl: "https://coursera.org"
   },
   {
+    title: "Connect and Protect: Networks and Network Security",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
+    date: "March 2026",
+    pdf: "/certs/Connect and Protect Networks and Network Security.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Play It Safe: Manage Security Risks",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
+    date: "March 2026",
+    pdf: "/certs/Play It Safe Manage Security Risks.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Network Architecture",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
+    date: "March 2026",
+    pdf: "/certs/Network Architecture.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Network Monitoring and Analysis",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
+    date: "March 2026",
+    pdf: "/certs/Network Monitoring and Analysis.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Network Operations",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
+    date: "March 2026",
+    pdf: "/certs/Network Operations.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Network Traffic and Logs Using IDS and SIEM",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
+    date: "March 2026",
+    pdf: "/certs/Network Traffic and Logs Using IDS and SIEM.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Secure Against Network Intrusions",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
+    date: "March 2026",
+    pdf: "/certs/Secure Against Network Intrusions.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Security Hardening",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
+    date: "March 2026",
+    pdf: "/certs/Security hardening.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Introduction to Detection and Incident Response",
+    issuer: "Google / Coursera",
+    category: "Google Cybersecurity",
+    date: "March 2026",
+    pdf: "/certs/Introduction to Detection and Incident Response.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+
+  // ── Google Data & Python ─────────────────────────────────────────────────
+  {
+    title: "Google Data Analysis with Python",
+    issuer: "Google / Coursera",
+    category: "Google Data",
+    date: "March 2026",
+    pdf: "/certs/Google Data Analysis with Python.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Clean Your Data",
+    issuer: "Google / Coursera",
+    category: "Google Data",
+    date: "March 2026",
+    pdf: "/certs/Clean Your Data.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Explore Raw Data",
+    issuer: "Google / Coursera",
+    category: "Google Data",
+    date: "March 2026",
+    pdf: "/certs/Explore Raw Data.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Data Structures in Python",
+    issuer: "Google / Coursera",
+    category: "Google Data",
+    date: "March 2026",
+    pdf: "/certs/Data Structures in Python.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Using Python to Interact with the Operating System",
+    issuer: "Google / Coursera",
+    category: "Google Data",
+    date: "March 2026",
+    pdf: "/certs/Using Python to Interact with the Operating System.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+
+  // ── Google Agile / Project Management ───────────────────────────────────
+  {
+    title: "Google Agile Essentials",
+    issuer: "Google / Coursera",
+    category: "Google Agile",
+    date: "March 2026",
+    pdf: "/certs/Google Agile Essentials.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Foundations of Agile Project Management",
+    issuer: "Google / Coursera",
+    category: "Google Agile",
+    date: "March 2026",
+    pdf: "/certs/Foundations of Agile Project Management.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Implement the Scrum Framework",
+    issuer: "Google / Coursera",
+    category: "Google Agile",
+    date: "March 2026",
+    pdf: "/certs/Implement the Scrum Framework.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Organize Projects and Measure Productivity with Scrum",
+    issuer: "Google / Coursera",
+    category: "Google Agile",
+    date: "March 2026",
+    pdf: "/certs/Organize Projects and Measure Productivity with Scrum.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+
+  // ── Google Dev Tools ─────────────────────────────────────────────────────
+  {
+    title: "Introduction to Git and GitHub",
+    issuer: "Google / Coursera",
+    category: "Google Dev",
+    date: "March 2026",
+    pdf: "/certs/Introduction to Git and GitHub.pdf",
+    verifyUrl: "https://coursera.org"
+  },
+  {
+    title: "Coursera Certificate (5C0XWIV23YQY)",
+    issuer: "Coursera",
+    category: "Google Dev",
+    date: "March 2026",
+    pdf: "/certs/Coursera 5C0XWIV23YQY.pdf",
+    verifyUrl: "https://coursera.org/verify/5C0XWIV23YQY"
+  },
+  {
+    title: "Coursera Certificate (LY6ZAHZ2B0HQ)",
+    issuer: "Coursera",
+    category: "Google Dev",
+    date: "March 2026",
+    pdf: "/certs/Coursera LY6ZAHZ2B0HQ.pdf",
+    verifyUrl: "https://coursera.org/verify/LY6ZAHZ2B0HQ"
+  },
+  {
+    title: "Coursera Certificate (XTXU9Y0G9UIQ)",
+    issuer: "Coursera",
+    category: "Google Dev",
+    date: "March 2026",
+    pdf: "/certs/Coursera XTXU9Y0G9UIQ.pdf",
+    verifyUrl: "https://coursera.org/verify/XTXU9Y0G9UIQ"
+  },
+  {
+    title: "Coursera Certificate (YKSSTMS1FYH8)",
+    issuer: "Coursera",
+    category: "Google Dev",
+    date: "March 2026",
+    pdf: "/certs/Coursera YKSSTMS1FYH8.pdf",
+    verifyUrl: "https://coursera.org/verify/YKSSTMS1FYH8"
+  },
+
+  // ── Hackathons ───────────────────────────────────────────────────────────
+  {
+    title: "Dogarithms Hackathon",
+    issuer: "Dogarithms",
+    category: "Hackathons",
+    date: "2025",
+    pdf: "/certs/Dogarithms.pdf",
+    verifyUrl: ""
+  },
+  {
+    title: "Hackathon Recognition / Award",
+    issuer: "Hackathon Organizer",
+    category: "Hackathons",
+    date: "2025",
+    pdf: "/certs/25.png",
+    verifyUrl: ""
+  },
+
+  // ── Conferences & Seminars ───────────────────────────────────────────────
+  {
     title: "Globe Developers Conference 2025",
-    issuer: "BGC Globe Tower, Taguig",
+    issuer: "Globe Telecom",
     category: "Seminars",
     date: "October 9, 2025",
-    pdf: "/certs/globe-devcon-2025.pdf",
+    pdf: "/certs/Globe DevCon 2025 Certificate_AA Afable.pdf",
     verifyUrl: ""
-  }
+  },
+  {
+    title: "GDG Certificate",
+    issuer: "Google Developer Groups",
+    category: "Seminars",
+    date: "2025",
+    pdf: "/certs/GDG-Certificate-AA_Kikz_H__Afable.pdf",
+    verifyUrl: ""
+  },
+  {
+    title: "Certificate",
+    issuer: "Issuer",
+    category: "Seminars",
+    date: "2025",
+    pdf: "/certs/certificate.pdf",
+    verifyUrl: ""
+  },
 ];
 
 // -----------------------------------------------------------------------------
