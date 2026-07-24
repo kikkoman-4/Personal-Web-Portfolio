@@ -26,35 +26,69 @@ export default function ProjectsSection() {
       <div className="grid md:grid-cols-2 gap-8">
         {PROJECTS.map((proj, index) => (
           <AnimatedSection key={index} direction={index % 2 === 0 ? 'left' : 'right'} delay={index * 100}>
-            <div 
-              className="group flex flex-col bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-500/5 h-full"
-            >
-              <div className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{proj.category}</div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 group-hover:text-indigo-400 dark:group-hover:text-indigo-400 transition-colors mb-3 flex items-center justify-between">
-                <span>{proj.title}</span>
-                <ExternalLink size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-              </h3>
-              <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
-                {proj.description}
-              </p>
+            <div className="group flex flex-col bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10 h-full">
               
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {proj.tags.map((tag, tIdx) => (
-                  <span key={tIdx} className="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded-md">
-                    {tag}
+              {/* Thumbnail */}
+              <div className="relative w-full h-48 overflow-hidden bg-slate-100 dark:bg-slate-800 shrink-0">
+                <img
+                  src={proj.thumbnail}
+                  alt={`${proj.title} screenshot`}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={(e) => {
+                    // Fallback to a gradient placeholder if image fails to load
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                    target.parentElement!.classList.add('flex', 'items-center', 'justify-center');
+                  }}
+                />
+                {/* Hover overlay with links */}
+                <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <a
+                    href={proj.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all hover:scale-105"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Github size={14} />
+                    <span>Source</span>
+                  </a>
+                  <a
+                    href={proj.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/30 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all hover:scale-105"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <ExternalLink size={14} />
+                    <span>Live Demo</span>
+                  </a>
+                </div>
+                {/* Category badge */}
+                <div className="absolute top-3 left-3">
+                  <span className="text-[10px] font-bold uppercase tracking-wider bg-slate-900/80 backdrop-blur-sm text-indigo-300 border border-indigo-800/50 px-2.5 py-1 rounded-full">
+                    {proj.category}
                   </span>
-                ))}
+                </div>
               </div>
 
-              <div className="flex items-center gap-4 text-xs font-semibold border-t border-slate-100 dark:border-slate-800/50 pt-4">
-                <a href={proj.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
-                  <Github size={14} />
-                  <span>Source</span>
-                </a>
-                <a href={proj.demo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
-                  <ExternalLink size={14} />
-                  <span>Live Demo</span>
-                </a>
+              {/* Card Body */}
+              <div className="flex flex-col flex-grow p-6">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-2 flex items-center justify-between">
+                  <span>{proj.title}</span>
+                  <ExternalLink size={15} className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0 ml-2" />
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-5 flex-grow">
+                  {proj.description}
+                </p>
+
+                <div className="flex flex-wrap gap-1.5 border-t border-slate-100 dark:border-slate-800/50 pt-4">
+                  {proj.tags.map((tag, tIdx) => (
+                    <span key={tIdx} className="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded-md">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </AnimatedSection>
@@ -63,3 +97,4 @@ export default function ProjectsSection() {
     </section>
   );
 }
+

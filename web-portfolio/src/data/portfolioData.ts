@@ -78,7 +78,8 @@ export const PROJECTS = [
     tags: ["Next.js", "Supabase", "Google Sheets API", "Zod", "GSAP", "Lenis"],
     github: PERSONAL_INFO.socials.github,
     demo: "https://example.com",
-    category: "Freelance Work"
+    category: "Freelance Work",
+    thumbnail: "/thumb-wine-century.png"
   },
   {
     title: "Hive Mind",
@@ -86,7 +87,8 @@ export const PROJECTS = [
     tags: ["C#", "Unity", "Game Dev", "JSON", "Optimization"],
     github: PERSONAL_INFO.socials.github,
     demo: "https://example.com",
-    category: "Game Development"
+    category: "Game Development",
+    thumbnail: "/thumb-hive-mind.png"
   },
   {
     title: "HildrStudios Website",
@@ -94,7 +96,8 @@ export const PROJECTS = [
     tags: ["Next.js", "React", "TailwindCSS", "UI/UX", "Responsive Design"],
     github: PERSONAL_INFO.socials.github,
     demo: "https://example.com",
-    category: "Freelance Work"
+    category: "Freelance Work",
+    thumbnail: "/thumb-hildr-studios.png"
   },
   {
     title: "Bagong Cotta LGU Website",
@@ -102,7 +105,8 @@ export const PROJECTS = [
     tags: ["PHP", "JavaScript", "MySQL", "LGU Portal", "Bootstrap"],
     github: PERSONAL_INFO.socials.github,
     demo: "https://example.com",
-    category: "LGU Web App"
+    category: "LGU Web App",
+    thumbnail: "/thumb-bagong-cotta.png"
   }
 ];
 
