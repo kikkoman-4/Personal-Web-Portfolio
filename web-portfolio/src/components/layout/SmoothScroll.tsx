@@ -1,9 +1,13 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
-import gsap from 'gsap';
+import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  history.scrollRestoration = 'manual';
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.clearScrollMemory('manual');
+}
 
 interface LenisContextValue {
   lenis: Lenis | null;
@@ -22,110 +26,90 @@ interface SmoothScrollProps {
   snapSections?: string[];
 }
 
-export const SmoothScroll: React.FC<SmoothScrollProps> = ({
-  children,
-  snapSections = [],
-}) => {
+export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children, snapSections = ['certifications'] }) => {
   const [lenis, setLenis] = useState<Lenis | null>(null);
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // ── Lenis setup ───────────────────────────────────────────────────────
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+
+    if (isMobile) {
+      const refreshTimer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
+      return () => clearTimeout(refreshTimer);
+    }
+
+    // Initialize Lenis
     const lenisInstance = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
+      lerp: 0.08,
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 2,
+      infinite: false,
+      autoRaf: false,
     });
 
+    lenisRef.current = lenisInstance;
     setLenis(lenisInstance);
 
-    lenisInstance.on('scroll', ScrollTrigger.update);
+    (window as any).lenis = lenisInstance;
+    (window as any).Lenis = lenisInstance;
 
-    const updateTicker = (time: number) => lenisInstance.raf(time * 1000);
-    gsap.ticker.add(updateTicker);
+    // Sync GSAP ticker with Lenis
+    const updateLenis = (time: number) => {
+      if (lenisRef.current) {
+        lenisRef.current.raf(time * 1000);
+      }
+    };
+
+    gsap.ticker.add(updateLenis);
     gsap.ticker.lagSmoothing(0);
 
-    // ── Section snapping via wheel+RAF (bypasses Lenis event API entirely) ─
-    let snapping = false;
-    let wheelTimer: ReturnType<typeof setTimeout> | null = null;
-    let rafId: number | null = null;
+    lenisInstance.on('scroll', () => {
+      ScrollTrigger.update();
+    });
 
-    const checkSnap = () => {
-      if (snapping || snapSections.length === 0) return;
-      const vh = window.innerHeight;
+    // Setup Section Snapping via ScrollTrigger + Lenis scrollTo
+    const refreshTimer = setTimeout(() => {
+      if (typeof document !== 'undefined' && document.body) {
+        ScrollTrigger.refresh();
 
-      for (const id of snapSections) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        const top = el.getBoundingClientRect().top;
+        const targets = (snapSections.length > 0
+          ? snapSections.map((id) => document.getElementById(id))
+          : Array.from(document.querySelectorAll('[data-snap]'))
+        ).filter((el): el is HTMLElement => el !== null);
 
-        // Snap when section header is within top 45% of viewport but not yet locked (>10px)
-        if (top > 10 && top < vh * 0.45) {
-          snapping = true;
-          lenisInstance.scrollTo(el, {
-            offset: -20,
-            duration: 0.75,
-            easing: (t: number) => 1 - Math.pow(1 - t, 3),
-            onComplete: () => {
-              setTimeout(() => { snapping = false; }, 400);
+        targets.forEach((el) => {
+          ScrollTrigger.create({
+            trigger: el,
+            start: 'top 35%',
+            end: 'bottom 65%',
+            onEnter: () => {
+              lenisInstance.scrollTo(el, { offset: 0, duration: 0.8 });
+            },
+            onEnterBack: () => {
+              lenisInstance.scrollTo(el, { offset: 0, duration: 0.8 });
             },
           });
-          return;
-        }
+        });
       }
-    };
-
-    // Poll window.scrollY via RAF until it is stable (Lenis finished animating)
-    const waitForSettle = () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      let prev = window.scrollY;
-      let stableFrames = 0;
-
-      const tick = () => {
-        const curr = window.scrollY;
-        if (Math.abs(curr - prev) < 0.5) {
-          stableFrames++;
-          if (stableFrames >= 6) {   // ~100ms at 60fps — Lenis has finished
-            checkSnap();
-            return;
-          }
-        } else {
-          stableFrames = 0;
-        }
-        prev = curr;
-        rafId = requestAnimationFrame(tick);
-      };
-
-      rafId = requestAnimationFrame(tick);
-    };
-
-    // Kick off settle-wait 100ms after the last wheel event fires
-    const onWheel = () => {
-      if (snapping) return;
-      if (wheelTimer) clearTimeout(wheelTimer);
-      wheelTimer = setTimeout(waitForSettle, 100);
-    };
-
-    if (snapSections.length > 0) {
-      window.addEventListener('wheel', onWheel, { passive: true });
-    }
+    }, 150);
 
     return () => {
-      if (wheelTimer) clearTimeout(wheelTimer);
-      if (rafId) cancelAnimationFrame(rafId);
-      if (snapSections.length > 0) {
-        window.removeEventListener('wheel', onWheel);
+      clearTimeout(refreshTimer);
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.getAll().forEach((st) => st.kill());
       }
-      lenisInstance.off('scroll', ScrollTrigger.update);
-      lenisInstance.destroy();
-      gsap.ticker.remove(updateTicker);
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+      }
+      gsap.ticker.remove(updateLenis);
+      delete (window as any).lenis;
+      delete (window as any).Lenis;
       setLenis(null);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [snapSections.join(',')]);
+  }, [snapSections]);
 
   return (
     <LenisContext.Provider value={{ lenis }}>
