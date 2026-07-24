@@ -156,46 +156,12 @@ function CertCard({
       >
         {/* ── LEFT: PDF Preview Panel ────────────────────────────────────── */}
         <div
-          className="relative md:w-[45%] flex-shrink-0 overflow-hidden cursor-pointer bg-slate-100 dark:bg-slate-800/60"
+          className="relative md:w-[45%] flex-shrink-0 overflow-hidden cursor-pointer"
           style={{ minHeight: '260px' }}
           onClick={() => hasPdf && onOpen(cert)}
         >
-          {/* Document Skeleton — shown until real PDFs are loaded */}
-          <div className="absolute inset-0 flex flex-col p-5 gap-3">
-            {/* Certificate header bar */}
-            <div className="flex items-center justify-between mb-1">
-              <div className="h-2.5 w-20 rounded-full skeleton-shimmer" />
-              <div className="h-2.5 w-14 rounded-full skeleton-shimmer" />
-            </div>
-
-            {/* Seal / stamp circle */}
-            <div className="flex justify-center py-2">
-              <div className="w-16 h-16 rounded-full skeleton-shimmer" />
-            </div>
-
-            {/* Title lines */}
-            <div className="space-y-2">
-              <div className="h-3 w-4/5 mx-auto rounded-full skeleton-shimmer" />
-              <div className="h-3 w-3/5 mx-auto rounded-full skeleton-shimmer" />
-            </div>
-
-            {/* Divider */}
-            <div className="h-px w-full skeleton-shimmer mt-1" />
-
-            {/* Body text lines */}
-            <div className="space-y-2">
-              <div className="h-2 w-full rounded-full skeleton-shimmer" />
-              <div className="h-2 w-5/6 rounded-full skeleton-shimmer" />
-              <div className="h-2 w-4/6 rounded-full skeleton-shimmer" />
-              <div className="h-2 w-full rounded-full skeleton-shimmer" />
-            </div>
-
-            {/* Signature / bottom bar */}
-            <div className="mt-auto flex items-center justify-between">
-              <div className="h-2.5 w-16 rounded-full skeleton-shimmer" />
-              <div className="h-2.5 w-12 rounded-full skeleton-shimmer" />
-            </div>
-          </div>
+          {/* Blank placeholder — same style as LazyImage skeleton */}
+          <div className="absolute inset-0 bg-slate-200 dark:bg-slate-800" />
 
           {/* Hover overlay — click to open PDF modal */}
           <div

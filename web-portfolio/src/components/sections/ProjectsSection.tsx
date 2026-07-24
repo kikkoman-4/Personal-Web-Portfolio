@@ -2,6 +2,7 @@ import { FolderGit, ExternalLink } from 'lucide-react';
 import { PROJECTS, PROJECTS_CONTENT } from '../../data/portfolioData';
 import { Github } from '../ui/Icons';
 import AnimatedSection from '../ui/AnimatedSection';
+import LazyImage from '../ui/LazyImage';
 
 export default function ProjectsSection() {
   return (
@@ -29,17 +30,12 @@ export default function ProjectsSection() {
             <div className="group flex flex-col bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10 h-full">
               
               {/* Thumbnail */}
-              <div className="relative w-full h-48 overflow-hidden bg-slate-100 dark:bg-slate-800 shrink-0">
-                <img
+              <div className="relative w-full h-48 overflow-hidden shrink-0">
+                <LazyImage
                   src={proj.thumbnail}
                   alt={`${proj.title} screenshot`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  onError={(e) => {
-                    // Fallback to a gradient placeholder if image fails to load
-                    const target = e.currentTarget;
-                    target.style.display = 'none';
-                    target.parentElement!.classList.add('flex', 'items-center', 'justify-center');
-                  }}
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  containerClassName="w-full h-full"
                 />
                 {/* Hover overlay with links */}
                 <div className="absolute inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300">

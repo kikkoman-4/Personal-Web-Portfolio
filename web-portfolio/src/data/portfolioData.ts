@@ -124,25 +124,45 @@ export const EXPERIENCE = [
     role: "Freelance Full-Stack Developer",
     company: "Wine Century Bros Website",
     period: "March 2026",
-    description: "Built a Next.js and Supabase web application from scratch, integrating the Google Sheets API for seamless inventory management. Handled backend data processing using Zod validation and crafted smooth, interactive user interfaces with GSAP and Lenis."
+    description: "Built a Next.js and Supabase web application from scratch, integrating the Google Sheets API for seamless inventory management. Handled backend data processing using Zod validation and crafted smooth, interactive user interfaces with GSAP and Lenis.",
+    images: [
+      "/exp/wine-century-1.png",
+      "/exp/wine-century-2.png",
+      "/exp/wine-century-3.png"
+    ]
   },
   {
     role: "Pawzled Game Development Intern",
     company: "Hive Mind",
     period: "February 2026",
-    description: "Developed robust backend infrastructure and mobile optimizations by implementing high-performance object pooling for projectiles and collectibles, throttling enemy AI decision-making ticks, standardizing manager states with a unified reset architecture, and building a secure JSON-based local save system to ensure a stable 60 FPS."
+    description: "Developed robust backend infrastructure and mobile optimizations by implementing high-performance object pooling for projectiles and collectibles, throttling enemy AI decision-making ticks, standardizing manager states with a unified reset architecture, and building a secure JSON-based local save system to ensure a stable 60 FPS.",
+    images: [
+      "/exp/hive-mind-1.png",
+      "/exp/hive-mind-2.png",
+      "/exp/hive-mind-3.png"
+    ]
   },
   {
     role: "Freelance Full-Stack Developer",
     company: "HildrStudios Website",
     period: "January 2026",
-    description: "Built a responsive digital storefront using Next.js and Tailwind CSS for clients to browse and book specialized services like web development, photography, and videography. Implemented interactive UI animations using native React state and CSS, while optimizing media-heavy pages to maintain fast loading speeds across high-resolution service galleries."
+    description: "Built a responsive digital storefront using Next.js and Tailwind CSS for clients to browse and book specialized services like web development, photography, and videography. Implemented interactive UI animations using native React state and CSS, while optimizing media-heavy pages to maintain fast loading speeds across high-resolution service galleries.",
+    images: [
+      "/exp/hildr-studios-1.png",
+      "/exp/hildr-studios-2.png",
+      "/exp/hildr-studios-3.png"
+    ]
   },
   {
     role: "UI/UX Developer",
     company: "Bagong Cotta LGU Website",
     period: "Sep 2024 - Dec 2025",
-    description: "Co-developed a PHP web application for Barangay Cotta to digitize local government services, focusing on user experience. Designed and implemented the user interfaces for online certification forms, administrative dashboards, and the community news hub to ensure they were responsive and accessible to residents."
+    description: "Co-developed a PHP web application for Barangay Cotta to digitize local government services, focusing on user experience. Designed and implemented the user interfaces for online certification forms, administrative dashboards, and the community news hub to ensure they were responsive and accessible to residents.",
+    images: [
+      "/exp/bagong-cotta-1.png",
+      "/exp/bagong-cotta-2.png",
+      "/exp/bagong-cotta-3.png"
+    ]
   }
 ];
 
