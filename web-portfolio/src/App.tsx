@@ -52,7 +52,7 @@ function App() {
 
   const scrollToSection = (id: string) => {
     if (lenis) {
-      lenis.scrollTo(`#${id}`, { offset: -30, duration: 1.2 });
+      lenis.scrollTo(`#${id}`, { offset: 0, duration: 1.2 });
     } else {
       const element = document.getElementById(id);
       if (element) {

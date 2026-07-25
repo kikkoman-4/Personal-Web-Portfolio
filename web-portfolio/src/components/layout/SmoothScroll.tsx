@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import Lenis from 'lenis';
-import { gsap } from 'gsap';
+import Snap from 'lenis/snap';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 if (typeof window !== 'undefined') {
@@ -23,24 +24,18 @@ export const useLenis = () => {
 
 interface SmoothScrollProps {
   children: React.ReactNode;
+  /** Section element IDs that should snap to the top of the viewport */
   snapSections?: string[];
 }
 
-export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children, snapSections = ['certifications'] }) => {
+export const SmoothScroll: React.FC<SmoothScrollProps> = ({
+  children,
+  snapSections = [],
+}) => {
   const [lenis, setLenis] = useState<Lenis | null>(null);
-  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    const isMobile = window.matchMedia('(max-width: 767px)').matches;
-
-    if (isMobile) {
-      const refreshTimer = setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 100);
-      return () => clearTimeout(refreshTimer);
-    }
-
-    // Initialize Lenis
+    // ── Lenis (matching reference: autoRaf: false, lerp: 0.08) ────────────
     const lenisInstance = new Lenis({
       lerp: 0.08,
       smoothWheel: true,
@@ -50,66 +45,66 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({ children, snapSectio
       autoRaf: false,
     });
 
-    lenisRef.current = lenisInstance;
     setLenis(lenisInstance);
-
     (window as any).lenis = lenisInstance;
-    (window as any).Lenis = lenisInstance;
 
-    // Sync GSAP ticker with Lenis
-    const updateLenis = (time: number) => {
-      if (lenisRef.current) {
-        lenisRef.current.raf(time * 1000);
-      }
-    };
-
-    gsap.ticker.add(updateLenis);
+    // ── GSAP ticker drives Lenis ──────────────────────────────────────────
+    const updateTicker = (time: number) => lenisInstance.raf(time * 1000);
+    gsap.ticker.add(updateTicker);
     gsap.ticker.lagSmoothing(0);
 
-    lenisInstance.on('scroll', () => {
-      ScrollTrigger.update();
-    });
+    // ── Sync ScrollTrigger ────────────────────────────────────────────────
+    lenisInstance.on('scroll', () => ScrollTrigger.update());
 
-    // Setup Section Snapping via ScrollTrigger + Lenis scrollTo
+    // ── Lenis Snap plugin (lenis/snap) ────────────────────────────────────
+    // Must initialise AFTER sections are in the DOM
+    let snapInstance: Snap | null = null;
+    let removeSnapFns: Array<() => void> = [];
+
+    const initSnap = () => {
+      if (snapSections.length === 0) return;
+
+      snapInstance = new Snap(lenisInstance, {
+        type: 'proximity',
+        distanceThreshold: '25%',
+        debounce: 300,
+        duration: 0.8,
+        easing: (t: number) => 1 - Math.pow(1 - t, 3),
+      });
+
+      snapSections.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el && snapInstance) {
+          const remove = snapInstance.addElement(el, { align: ['start'] });
+          removeSnapFns.push(remove);
+          console.log(`[Snap] registered #${id}`, el.getBoundingClientRect());
+        } else {
+          console.warn(`[Snap] element #${id} not found`);
+        }
+      });
+    };
+
+    // Wait 300ms for sections to fully mount/measure
+    const snapTimer = setTimeout(initSnap, 300);
+
+    // Force ScrollTrigger refresh after layout
     const refreshTimer = setTimeout(() => {
-      if (typeof document !== 'undefined' && document.body) {
-        ScrollTrigger.refresh();
-
-        const targets = (snapSections.length > 0
-          ? snapSections.map((id) => document.getElementById(id))
-          : Array.from(document.querySelectorAll('[data-snap]'))
-        ).filter((el): el is HTMLElement => el !== null);
-
-        targets.forEach((el) => {
-          ScrollTrigger.create({
-            trigger: el,
-            start: 'top 35%',
-            end: 'bottom 65%',
-            onEnter: () => {
-              lenisInstance.scrollTo(el, { offset: 0, duration: 0.8 });
-            },
-            onEnterBack: () => {
-              lenisInstance.scrollTo(el, { offset: 0, duration: 0.8 });
-            },
-          });
-        });
-      }
+      if (document?.body) ScrollTrigger.refresh();
     }, 150);
 
     return () => {
+      clearTimeout(snapTimer);
       clearTimeout(refreshTimer);
-      if (typeof ScrollTrigger !== 'undefined') {
-        ScrollTrigger.getAll().forEach((st) => st.kill());
-      }
-      if (lenisRef.current) {
-        lenisRef.current.destroy();
-      }
-      gsap.ticker.remove(updateLenis);
+      removeSnapFns.forEach((fn) => fn());
+      snapInstance?.destroy();
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+      lenisInstance.destroy();
+      gsap.ticker.remove(updateTicker);
       delete (window as any).lenis;
-      delete (window as any).Lenis;
       setLenis(null);
     };
-  }, [snapSections]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [snapSections.join(',')]);
 
   return (
     <LenisContext.Provider value={{ lenis }}>

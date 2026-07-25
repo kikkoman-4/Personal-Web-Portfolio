@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 interface AnimatedSectionProps {
   children: ReactNode;
@@ -7,6 +7,7 @@ interface AnimatedSectionProps {
   delay?: number;
   duration?: number;
   threshold?: number;
+  once?: boolean;
 }
 
 export default function AnimatedSection({
@@ -16,14 +17,25 @@ export default function AnimatedSection({
   delay = 0,
   duration = 700,
   threshold = 0.12,
+  once = true,
 }: AnimatedSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          if (once) {
+            observer.unobserve(node);
+          }
+        } else if (!once) {
+          setIsVisible(false);
+        }
       },
       {
         threshold,
@@ -31,17 +43,12 @@ export default function AnimatedSection({
       }
     );
 
-    const currentRef = ref.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+    observer.observe(node);
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      observer.disconnect();
     };
-  }, [threshold]);
+  }, [threshold, once]);
 
   const getAnimationStyles = () => {
     if (isVisible) {
@@ -72,9 +79,10 @@ export default function AnimatedSection({
         transitionDuration: `${duration}ms`,
         transitionDelay: `${delay}ms`,
       }}
-      className={`transition-all ease-out transform-gpu will-change-[transform,opacity,filter] ${getAnimationStyles()} ${className}`}
+      className={`transition-all ease-out transform-gpu ${getAnimationStyles()} ${className}`}
     >
       {children}
     </div>
   );
 }
+
