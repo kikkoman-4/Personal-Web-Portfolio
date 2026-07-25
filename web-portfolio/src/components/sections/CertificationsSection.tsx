@@ -105,7 +105,11 @@ export default function CertificationsSection() {
                 </h3>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-4 space-y-2 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700">
+              <div 
+                data-lenis-prevent
+                onWheel={(e) => e.stopPropagation()}
+                className="flex-1 overflow-y-auto overscroll-contain p-4 space-y-2 scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700"
+              >
                 {filteredCerts.map((cert, idx) => {
                   const isSelected = selectedCert === cert;
                   return (

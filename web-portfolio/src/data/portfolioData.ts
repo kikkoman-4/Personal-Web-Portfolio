@@ -82,36 +82,67 @@ export const PROJECTS = [
     title: "Wine Century Bros Website",
     description: "A Next.js and Supabase web application built from scratch, integrating the Google Sheets API for seamless inventory management, backend Zod data validation, and smooth GSAP/Lenis scrolling animations.",
     tags: ["Next.js", "Supabase", "Google Sheets API", "Zod", "GSAP", "Lenis"],
-    github: PERSONAL_INFO.socials.github,
-    demo: "https://example.com",
+    demo: "https://www.winecenturybros.com/",
     category: "Freelance Work",
-    thumbnail: "/thumb-wine-century.png"
+    thumbnail: "/thumbnails/wcb1.jpg"
   },
   {
     title: "Hive Mind",
     description: "Developed robust game backend infrastructure and mobile optimizations with high-performance object pooling for projectiles/collectibles, throttled enemy AI decision-making ticks, and secure JSON local saves for stable 60 FPS gameplay.",
     tags: ["C#", "Unity", "Game Dev", "JSON", "Optimization"],
-    github: PERSONAL_INFO.socials.github,
     demo: "https://example.com",
-    category: "Game Development",
+    category: "Game Development Internship Project",
     thumbnail: "/thumb-hive-mind.png"
   },
   {
     title: "HildrStudios Website",
     description: "A responsive digital storefront for booking creative services (web development, photography, videography) built using Next.js and Tailwind CSS with custom React state animations.",
     tags: ["Next.js", "React", "TailwindCSS", "UI/UX", "Responsive Design"],
-    github: PERSONAL_INFO.socials.github,
-    demo: "https://example.com",
+    demo: "https://www.hildrstudios.com",
     category: "Freelance Work",
-    thumbnail: "/thumb-hildr-studios.png"
+    thumbnail: "/thumbnails/hildr.jpg"
+  },
+  {
+    title: "YGG Pilipinas Game Jam Hackathon",
+    description: "A responsive digital storefront for booking creative services (web development, photography, videography) built using Next.js and Tailwind CSS with custom React state animations.",
+    tags: ["Next.js", "React", "TailwindCSS", "UI/UX", "Responsive Design"],
+    github: PERSONAL_INFO.socials.github,
+    demo: "https://www.hildrstudios.com",
+    category: "Freelance Work",
+    thumbnail: "/thumbnails/hildr.jpg"
   },
   {
     title: "Bagong Cotta LGU Website",
     description: "A PHP-based public service portal digitizing administrative dashboards, online certification requests, and local community news hubs with a focus on responsive and accessible interfaces.",
     tags: ["PHP", "JavaScript", "MySQL", "LGU Portal", "Bootstrap"],
+    category: "School Capstone Project",
+    thumbnail: "/thumb-bagong-cotta.png"
+  },
+  {
+    title: "Zus",
+    description: "A PHP-based public service portal digitizing administrative dashboards, online certification requests, and local community news hubs with a focus on responsive and accessible interfaces.",
+    tags: ["PHP", "JavaScript", "MySQL", "LGU Portal", "Bootstrap"],
+    github: "https://github.com/kikkoman-4/zus",
+    demo: "https://remix.gg/g/8a843fb0-0391-4c4d-aaf9-9b7992c9d491",
+    category: "Remix Game Jam",
+    thumbnail: "/thumbnails/rmix.png"
+  },
+  {
+    title: "Dead Pixel",
+    description: "A PHP-based public service portal digitizing administrative dashboards, online certification requests, and local community news hubs with a focus on responsive and accessible interfaces.",
+    tags: ["PHP", "JavaScript", "MySQL", "LGU Portal", "Bootstrap"],
     github: PERSONAL_INFO.socials.github,
     demo: "https://example.com",
-    category: "LGU Web App",
+    category: "School Project",
+    thumbnail: "/thumb-bagong-cotta.png"
+  },
+  {
+    title: "Kypher",
+    description: "A PHP-based public service portal digitizing administrative dashboards, online certification requests, and local community news hubs with a focus on responsive and accessible interfaces.",
+    tags: ["PHP", "JavaScript", "MySQL", "LGU Portal", "Bootstrap"],
+    github: PERSONAL_INFO.socials.github,
+    demo: "https://example.com",
+    category: "STI College Expo Project",
     thumbnail: "/thumb-bagong-cotta.png"
   }
 ];
@@ -126,9 +157,8 @@ export const EXPERIENCE = [
     period: "March 2026",
     description: "Built a Next.js and Supabase web application from scratch, integrating the Google Sheets API for seamless inventory management. Handled backend data processing using Zod validation and crafted smooth, interactive user interfaces with GSAP and Lenis.",
     images: [
-      "/exp/wine-century-1.png",
-      "/exp/wine-century-2.png",
-      "/exp/wine-century-3.png"
+      "/thumbnails/wcb1.jpg",
+      "/thumbnails/wcb2.jpg"
     ]
   },
   {
@@ -137,9 +167,9 @@ export const EXPERIENCE = [
     period: "February 2026",
     description: "Developed robust backend infrastructure and mobile optimizations by implementing high-performance object pooling for projectiles and collectibles, throttling enemy AI decision-making ticks, standardizing manager states with a unified reset architecture, and building a secure JSON-based local save system to ensure a stable 60 FPS.",
     images: [
-      "/exp/hive-mind-1.png",
-      "/exp/hive-mind-2.png",
-      "/exp/hive-mind-3.png"
+      "/thumbnails/pzd1.png",
+      "/thumbnails/pzd3.png",
+      "/thumbnails/pzd.jpg",
     ]
   },
   {
@@ -148,9 +178,7 @@ export const EXPERIENCE = [
     period: "January 2026",
     description: "Built a responsive digital storefront using Next.js and Tailwind CSS for clients to browse and book specialized services like web development, photography, and videography. Implemented interactive UI animations using native React state and CSS, while optimizing media-heavy pages to maintain fast loading speeds across high-resolution service galleries.",
     images: [
-      "/exp/hildr-studios-1.png",
-      "/exp/hildr-studios-2.png",
-      "/exp/hildr-studios-3.png"
+      "/thumbnails/hildr.jpg"
     ]
   },
   {

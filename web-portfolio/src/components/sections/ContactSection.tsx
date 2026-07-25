@@ -24,7 +24,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-12 md:py-16 scroll-mt-16 text-left mb-16 snap-start snap-always">
+    <section id="contact" className="py-12 md:py-16 mt-64 scroll-mt-16 text-left mb-16 snap-start snap-always">
       <div className="grid md:grid-cols-12 gap-12">
         <AnimatedSection direction="left" className="md:col-span-5 space-y-6">
           <div>
