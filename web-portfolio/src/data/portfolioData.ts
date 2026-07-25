@@ -537,7 +537,17 @@ export const STRENGTHS = [
 ];
 
 // -----------------------------------------------------------------------------
-// 8. Languages
+// 8. Professional Stats
+// -----------------------------------------------------------------------------
+export const STATS = [
+  { label: "Hackathons", value: "4+", description: "Participated" },
+  { label: "Projects", value: "12+", description: "Completed" },
+  { label: "Clients", value: "8+", description: "Satisfied" },
+  { label: "Experience", value: "3+", description: "Years" }
+];
+
+// -----------------------------------------------------------------------------
+// 9. Languages
 // -----------------------------------------------------------------------------
 export const LANGUAGES = [
   { name: "English", level: "Fluent" },
@@ -545,7 +555,7 @@ export const LANGUAGES = [
 ];
 
 // -----------------------------------------------------------------------------
-// 9. Technical Skills
+// 10. Technical Skills
 // -----------------------------------------------------------------------------
 export const SKILLS = [
   { category: "Front end", items: ["TypeScript", "JavaScript", "Next.js", "React", "Tailwind CSS", "GSAP", "Framer Motion", "HTML5/CSS3"] },
