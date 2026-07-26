@@ -3,7 +3,7 @@ import FloatingDock from './components/layout/FloatingDock';
 import HeroSection from './components/sections/HeroSection';
 import AboutSection from './components/sections/AboutSection';
 import ProjectsSection from './components/sections/ProjectsSection';
-import SkillsSection from './components/sections/SkillsSection';
+import EventsSection from './components/sections/EventsSection';
 import CertificationsSection from './components/sections/CertificationsSection';
 import ContactSection from './components/sections/ContactSection';
 import Footer from './components/layout/Footer';
@@ -20,7 +20,7 @@ function App() {
   // Handle active navigation highlighting on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'about', 'projects', 'skills', 'certifications', 'contact'];
+      const sections = ['hero', 'about', 'projects', 'events', 'certifications', 'contact'];
       
       // 1. If at the bottom of the page, activate the last section ('contact')
       const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
@@ -82,7 +82,7 @@ function App() {
       <main className="max-w-6xl mx-auto px-6 pt-8">
         <AboutSection />
         <ProjectsSection />
-        <SkillsSection />
+        <EventsSection />
       </main>
 
       {/* Full-viewport Certifications Section (outside narrow container) */}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventsSection Test</title>
+  <script type="module">
+    import { createRoot } from 'react-dom/client';
+    import { createElement } from 'react';
+    import EventsSection from './src/components/sections/EventsSection.tsx';
+
+    const root = createRoot(document.getElementById('root'));
+    root.render(createElement(EventsSection));
+  </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950">
+  <div id="root" class="max-w-6xl mx-auto px-6"></div>
+</body>
+</html>

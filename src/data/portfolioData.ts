@@ -60,10 +60,10 @@ export const CERTIFICATIONS_CONTENT = {
   subtitle: "A verified collection of professional certificates and attended seminars. Click any card to view the full certificate PDF."
 };
 
-export const SKILLS_CONTENT = {
-  tagline: "My Stack",
-  title: "Engineered for speed, built to scale",
-  subtitle: "I maintain expertise across multiple technology disciplines. From frontend rendering mechanisms to robust backend structures, these tools form my daily development pipeline."
+export const EVENTS_CONTENT = {
+  tagline: "Professional Journey",
+  title: "Events & Milestones",
+  subtitle: "A chronological timeline of hackathons, competitions, seminars, and significant achievements that shaped my development journey."
 };
 
 export const CONTACT_CONTENT = {
@@ -555,10 +555,141 @@ export const LANGUAGES = [
 ];
 
 // -----------------------------------------------------------------------------
-// 10. Technical Skills
+// 10. Events & Milestones
 // -----------------------------------------------------------------------------
-export const SKILLS = [
-  { category: "Front end", items: ["TypeScript", "JavaScript", "Next.js", "React", "Tailwind CSS", "GSAP", "Framer Motion", "HTML5/CSS3"] },
-  { category: "Backend & Databases", items: ["Node.js", "C#", "Python", "PHP", "Java", "Supabase", "PostgreSQL", "MySQL", "RESTful APIs"] },
-  { category: "Tools & DevOps", items: ["Git/GitHub", "Docker", "Cloudflare R2", "Figma"] }
+
+// Event Category Type
+export type EventCategory = 
+  | 'hackathon' 
+  | 'competition' 
+  | 'milestone' 
+  | 'seminar' 
+  | 'award';
+
+// Event Interface
+export interface Event {
+  // Required fields
+  title: string;              // Event name
+  date: string;               // ISO format or human-readable (e.g., "2025-03-15" or "March 2025")
+  description: string;        // Event description (2-3 sentences)
+  category: EventCategory;    // Event type classification
+  
+  // Optional fields
+  location?: string;          // Physical or virtual location
+  achievement?: string;       // Award or outcome (e.g., "1st Place Winner", "Best UI/UX")
+  tags?: string[];            // Related technologies or topics
+  links?: {
+    external?: string;        // Project URL or event website
+    github?: string;          // Repository link
+    certificate?: string;     // PDF certificate path
+  };
+  images?: string[];          // Optional event photos or screenshots
+}
+
+// Events Content Configuration
+export interface EventsContent {
+  tagline: string;   // Small uppercase label
+  title: string;     // Section heading
+  subtitle: string;  // Section description paragraph
+}
+
+// Events Array with sample data covering all categories
+export const EVENTS: Event[] = [
+  {
+    title: "YGG Pilipinas Game Jam Hackathon",
+    date: "February 2025",
+    description: "Participated in a 48-hour game development hackathon organized by Yield Guild Games Philippines. Built a web-based multiplayer game using React and WebSockets, focusing on real-time gameplay mechanics and responsive UI design.",
+    category: "hackathon",
+    location: "Online",
+    achievement: "Finalist",
+    tags: ["React", "WebSockets", "Game Dev", "JavaScript", "Multiplayer"],
+    links: {
+      external: "https://example.com/demo",
+      github: "https://github.com/kikkoman-4/ygg-game-jam"
+    },
+    images: ["/thumbnails/placeholder-hackathon.svg"]
+  },
+  {
+    title: "Globe Developers Conference 2025",
+    date: "October 9, 2025",
+    description: "Attended a full-day conference on modern web technologies, cloud architecture, and API integration strategies. Gained insights into scalable application design and emerging industry trends from leading tech professionals.",
+    category: "seminar",
+    location: "Manila, Philippines",
+    tags: ["API", "Cloud", "Web Dev", "Networking"],
+    links: {
+      certificate: "/certs/Globe DevCon 2025 Certificate_AA Afable.pdf"
+    },
+    images: ["/thumbnails/placeholder-seminar.svg"]
+  },
+  {
+    title: "Wine Century Bros Website Launch",
+    date: "March 2026",
+    description: "Successfully deployed a production-grade Next.js application with Supabase backend, Google Sheets API integration, and smooth GSAP animations. Delivered a complete e-commerce solution with real-time inventory management and responsive design.",
+    category: "milestone",
+    tags: ["Next.js", "Supabase", "Google Sheets API", "GSAP", "Full-Stack"],
+    links: {
+      external: "https://www.winecenturybros.com/"
+    },
+    images: ["/thumbnails/wcb1.jpg", "/thumbnails/wcb2.jpg"]
+  },
+  {
+    title: "STI Game Development Competition",
+    date: "November 2024",
+    description: "Competed in a regional game development competition showcasing innovative gameplay mechanics and polished user experience. Developed a 2D puzzle-platformer with Unity and C# featuring custom physics systems and level progression mechanics.",
+    category: "competition",
+    location: "STI College Lucena",
+    achievement: "Top 3 Finalist",
+    tags: ["Unity", "C#", "Game Design", "Physics", "Level Design"],
+    links: {
+      github: "https://github.com/kikkoman-4/sti-game-comp"
+    },
+    images: ["/thumbnails/placeholder-competition.svg"]
+  },
+  {
+    title: "Best Capstone Project Award",
+    date: "December 2025",
+    description: "Received recognition for outstanding technical implementation and practical community impact in developing the Bagong Cotta LGU Website. The project digitized local government services, improving accessibility for residents and streamlining administrative processes.",
+    category: "award",
+    location: "STI College Lucena",
+    achievement: "Best Capstone Project",
+    tags: ["PHP", "MySQL", "Web Development", "UI/UX", "Community Impact"],
+    links: {
+      certificate: "/certs/certificate.pdf"
+    },
+    images: ["/thumbnails/placeholder-award.svg"]
+  },
+  {
+    title: "Dogarithms Hackathon",
+    date: "2025",
+    description: "Participated in an intensive coding hackathon focused on algorithmic problem-solving and efficient data structure implementation. Collaborated with a team to develop creative solutions under time constraints while maintaining code quality.",
+    category: "hackathon",
+    location: "Online",
+    tags: ["Algorithms", "Data Structures", "Problem Solving", "Teamwork"],
+    links: {
+      certificate: "/certs/Dogarithms.pdf"
+    },
+    images: ["/thumbnails/placeholder-hackathon.svg"]
+  },
+  {
+    title: "GDG Developer Meetup",
+    date: "2025",
+    description: "Attended Google Developer Groups meetup featuring technical talks on modern web development, cloud technologies, and developer tools. Networked with fellow developers and learned about best practices in software engineering.",
+    category: "seminar",
+    location: "Philippines",
+    tags: ["Google Cloud", "Web Dev", "Developer Tools", "Networking"],
+    links: {
+      certificate: "/certs/GDG-Certificate-AA_Kikz_H__Afable.pdf"
+    },
+    images: ["/thumbnails/placeholder-seminar.svg"]
+  },
+  {
+    title: "Hive Mind Game Backend Completion",
+    date: "February 2026",
+    description: "Completed major milestone in game development internship by delivering robust backend infrastructure with high-performance object pooling, optimized AI systems, and secure save functionality. Achieved stable 60 FPS performance on mobile devices.",
+    category: "milestone",
+    location: "Pawzled Game Development",
+    achievement: "Internship Completion",
+    tags: ["C#", "Unity", "Game Backend", "Optimization", "Mobile"],
+    images: ["/thumbnails/pzd1.png", "/thumbnails/pzd3.png"]
+  }
 ];

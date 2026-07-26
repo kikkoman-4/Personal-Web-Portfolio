@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Sparkles, User, FolderGit, Cpu, Award, Mail } from 'lucide-react';
+import { Sparkles, User, FolderGit, Calendar, Award, Mail } from 'lucide-react';
 
 interface FloatingDockProps {
   activeSection: string;
@@ -11,14 +11,14 @@ export default function FloatingDock({ activeSection, scrollToSection }: Floatin
   const [isIdle, setIsIdle] = useState(false);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const sections = ['hero', 'about', 'projects', 'skills', 'certifications', 'contact'];
+  const sections = ['hero', 'about', 'projects', 'events', 'certifications', 'contact'];
 
   // Short display labels — keeps bubble from overflowing on long names
   const navLabels: Record<string, string> = {
     hero: 'hero',
     about: 'about',
     projects: 'projects',
-    skills: 'skills',
+    events: 'events',
     certifications: 'certs',
     contact: 'contact',
   };
@@ -130,7 +130,7 @@ export default function FloatingDock({ activeSection, scrollToSection }: Floatin
                 {item === 'hero' && <Sparkles size={18} />}
                 {item === 'about' && <User size={18} />}
                 {item === 'projects' && <FolderGit size={18} />}
-                {item === 'skills' && <Cpu size={18} />}
+                {item === 'events' && <Calendar size={18} />}
                 {item === 'certifications' && <Award size={18} />}
                 {item === 'contact' && <Mail size={18} />}
               </span>
