@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Award, FileText, Calendar, Building2, Maximize2, ChevronRight, CheckCircle2, Search } from 'lucide-react';
 import { CERTIFICATIONS_CONTENT, CERTIFICATIONS } from '../../data/portfolioData';
 import AnimatedSection from '../ui/AnimatedSection';
@@ -17,6 +17,19 @@ export default function CertificationsSection() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedCertIndex, setSelectedCertIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
 
   // Derive unique categories
   const categories = useMemo(() => {

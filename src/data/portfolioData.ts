@@ -600,8 +600,8 @@ export const EVENTS: Event[] = [
     date: "February 2025",
     description: "Participated in a 48-hour game development hackathon organized by Yield Guild Games Philippines. Built a web-based multiplayer game using React and WebSockets, focusing on real-time gameplay mechanics and responsive UI design.",
     category: "hackathon",
-    location: "Online",
-    achievement: "Finalist",
+    location: "BGC Taguig City, Philippines",
+    achievement: "Participant",
     tags: ["React", "WebSockets", "Game Dev", "JavaScript", "Multiplayer"],
     links: {
       external: "https://example.com/demo",
@@ -610,11 +610,23 @@ export const EVENTS: Event[] = [
     images: ["/thumbnails/placeholder-hackathon.svg"]
   },
   {
+    title: "Globe AcadArena 2025",
+    date: "August 26, 2025",
+    description: "Attended a full-day conference on modern web technologies, cloud architecture, and API integration strategies. Gained insights into scalable application design and emerging industry trends from leading tech professionals.",
+    category: "milestone",
+    location: "BGC Taguig City, Philippines",
+    tags: ["Leadership", "Gaming", "School Organization", "AcadArena"],
+    links: {
+      certificate: "#"
+    },
+    images: ["/thumbnails/AA_awards.jpg"]
+  },
+  {
     title: "Globe Developers Conference 2025",
     date: "October 9, 2025",
     description: "Attended a full-day conference on modern web technologies, cloud architecture, and API integration strategies. Gained insights into scalable application design and emerging industry trends from leading tech professionals.",
     category: "seminar",
-    location: "Manila, Philippines",
+    location: "BGC Taguig City, Philippines",
     tags: ["API", "Cloud", "Web Dev", "Networking"],
     links: {
       certificate: "/certs/Globe DevCon 2025 Certificate_AA Afable.pdf"
@@ -633,49 +645,36 @@ export const EVENTS: Event[] = [
     images: ["/thumbnails/wcb1.jpg", "/thumbnails/wcb2.jpg"]
   },
   {
-    title: "STI Game Development Competition",
+    title: "STI Tagisan ng Talino Competition",
     date: "November 2024",
-    description: "Competed in a regional game development competition showcasing innovative gameplay mechanics and polished user experience. Developed a 2D puzzle-platformer with Unity and C# featuring custom physics systems and level progression mechanics.",
+    description: "",
     category: "competition",
     location: "STI College Lucena",
     achievement: "Top 3 Finalist",
-    tags: ["Unity", "C#", "Game Design", "Physics", "Level Design"],
+    tags: ["Mobile App", "App Design"],
     links: {
-      github: "https://github.com/kikkoman-4/sti-game-comp"
+      github: "#"
     },
     images: ["/thumbnails/placeholder-competition.svg"]
   },
   {
-    title: "Best Capstone Project Award",
-    date: "December 2025",
-    description: "Received recognition for outstanding technical implementation and practical community impact in developing the Bagong Cotta LGU Website. The project digitized local government services, improving accessibility for residents and streamlining administrative processes.",
-    category: "award",
-    location: "STI College Lucena",
-    achievement: "Best Capstone Project",
-    tags: ["PHP", "MySQL", "Web Development", "UI/UX", "Community Impact"],
-    links: {
-      certificate: "/certs/certificate.pdf"
-    },
-    images: ["/thumbnails/placeholder-award.svg"]
-  },
-  {
-    title: "Dogarithms Hackathon",
+    title: "DLSU Hackercup 2025",
     date: "2025",
     description: "Participated in an intensive coding hackathon focused on algorithmic problem-solving and efficient data structure implementation. Collaborated with a team to develop creative solutions under time constraints while maintaining code quality.",
     category: "hackathon",
-    location: "Online",
-    tags: ["Algorithms", "Data Structures", "Problem Solving", "Teamwork"],
+    location: "Manila, Philippines",
+    tags: ["Algorithms", "Data Structures", "Problem Solving", "Teamwork", "Software Development", "App Design"],
     links: {
       certificate: "/certs/Dogarithms.pdf"
     },
     images: ["/thumbnails/placeholder-hackathon.svg"]
   },
   {
-    title: "GDG Developer Meetup",
+    title: "GDG Developer Seminar",
     date: "2025",
     description: "Attended Google Developer Groups meetup featuring technical talks on modern web development, cloud technologies, and developer tools. Networked with fellow developers and learned about best practices in software engineering.",
     category: "seminar",
-    location: "Philippines",
+    location: "online",
     tags: ["Google Cloud", "Web Dev", "Developer Tools", "Networking"],
     links: {
       certificate: "/certs/GDG-Certificate-AA_Kikz_H__Afable.pdf"
@@ -683,7 +682,19 @@ export const EVENTS: Event[] = [
     images: ["/thumbnails/placeholder-seminar.svg"]
   },
   {
-    title: "Hive Mind Game Backend Completion",
+    title: "Inventi Hackathon",
+    date: "2024",
+    description: "",
+    category: "competition",
+    location: "online",
+    tags: ["Software Development", "Web Dev", "Developer Tools", "Networking"],
+    links: {
+      certificate: "/certs/25.png"
+    },
+    images: ["/certs/25.png"]
+  },
+  {
+    title: "Pawzled Game Development Internship",
     date: "February 2026",
     description: "Completed major milestone in game development internship by delivering robust backend infrastructure with high-performance object pooling, optimized AI systems, and secure save functionality. Achieved stable 60 FPS performance on mobile devices.",
     category: "milestone",
