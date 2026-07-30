@@ -8,31 +8,43 @@ interface HeroSectionProps {
 
 export default function HeroSection({ scrollToSection }: HeroSectionProps) {
   const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      if (window.innerWidth >= 768) {
+        setScrollY(window.scrollY);
+      }
     };
 
+    window.addEventListener('resize', checkMobile);
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
-  // Calculate smooth card slide-up displacement on scroll
-  const translateY = Math.min(scrollY * 0.35, 250);
-  const opacity = Math.max(1 - scrollY / 500, 0);
+  // Disable parallax transform displacement on mobile touch devices
+  const translateY = isMobile ? 0 : Math.min(scrollY * 0.35, 250);
+  const opacity = isMobile ? 1 : Math.max(1 - scrollY / 500, 0);
 
   return (
     <section 
       id="hero" 
-      className="relative z-20 w-full min-h-[calc(100vh-20px)] flex flex-col justify-center items-center text-center px-6 py-20 bg-slate-900 text-white rounded-b-[40px] md:rounded-b-[64px] shadow-2xl border-b border-slate-800/80 transition-transform duration-75 ease-out"
+      className="relative z-20 w-full min-h-[calc(100vh-20px)] flex flex-col justify-center items-center text-center px-6 py-16 md:py-20 bg-slate-900 text-white rounded-b-[32px] md:rounded-b-[64px] shadow-2xl border-b border-slate-800/80 transition-transform duration-75 ease-out"
       style={{
         transform: `translate3d(0, -${translateY}px, 0)`,
       }}
     >
       {/* Card subtle background grid pattern & radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none rounded-b-[40px] md:rounded-b-[64px]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/15 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none rounded-b-[32px] md:rounded-b-[64px]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-indigo-600/15 rounded-full blur-[80px] md:blur-[140px] pointer-events-none" />
 
       <div 
         className="relative z-10 max-w-4xl mx-auto flex flex-col items-center transition-opacity duration-150"

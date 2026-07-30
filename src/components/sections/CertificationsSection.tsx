@@ -56,12 +56,12 @@ export default function CertificationsSection() {
   const isImage = (path: string) => Boolean(path.match(/\.(png|jpe?g|webp|gif|svg)$/i));
 
   return (
-    <section id="certifications" className="h-screen scroll-mt-16 w-full text-left snap-start snap-always relative overflow-hidden flex flex-col">
+    <section id="certifications" className="md:h-screen scroll-mt-16 w-full text-left relative overflow-visible md:overflow-hidden flex flex-col py-8 md:py-0">
       {/* Background Ambience */}
       <div className="absolute top-1/4 -right-1/4 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none opacity-40 dark:opacity-80 mix-blend-screen" />
       <div className="absolute bottom-1/4 -left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none opacity-40 dark:opacity-80 mix-blend-screen" />
 
-      <div className="px-4 sm:px-6 lg:px-12 max-w-[1600px] mx-auto relative z-10 flex flex-col flex-1 min-h-0 py-6 md:py-8">
+      <div className="px-4 sm:px-6 lg:px-12 max-w-[1600px] mx-auto relative z-10 flex flex-col md:flex-1 md:min-h-0 py-4 md:py-8">
         
         {/* ── Section Header ── */}
         <AnimatedSection direction="up">
@@ -102,12 +102,12 @@ export default function CertificationsSection() {
           </div>
         </AnimatedSection>
 
-        {/* ── Premium Unified Glass Window ── */}
-        <AnimatedSection direction="up" delay={100} className="flex-1 min-h-0 flex flex-col">
-          <div className="flex flex-col lg:flex-row flex-1 min-h-0 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-slate-200/50 dark:border-slate-700/50 rounded-3xl shadow-2xl overflow-hidden ring-1 ring-white/10">
+        {/* ── Premium Unified Glass Window (DESKTOP VIEW >= 1024px) ── */}
+        <AnimatedSection direction="up" delay={100} className="hidden lg:flex flex-1 min-h-0 flex-col">
+          <div className="flex flex-row flex-1 min-h-0 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-slate-200/50 dark:border-slate-700/50 rounded-3xl shadow-2xl overflow-hidden ring-1 ring-white/10">
             
             {/* ── LEFT PANEL: Master List ── */}
-            <div className="w-full lg:w-[340px] xl:w-[380px] shrink-0 border-b lg:border-b-0 lg:border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col bg-slate-50/50 dark:bg-slate-950/30 max-h-[45vh] lg:max-h-none">
+            <div className="w-[340px] xl:w-[380px] shrink-0 border-r border-slate-200/50 dark:border-slate-700/50 flex flex-col bg-slate-50/50 dark:bg-slate-950/30">
               
               <div className="px-5 py-4 border-b border-slate-200/50 dark:border-slate-700/50">
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center justify-between">
@@ -176,7 +176,7 @@ export default function CertificationsSection() {
             <div className="flex-1 flex flex-col bg-slate-100/50 dark:bg-slate-950/50 relative overflow-hidden">
               
               {/* Toolbar */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-6 py-4 border-b border-slate-200/50 dark:border-slate-700/50 bg-white/40 dark:bg-slate-900/40 backdrop-blur-md z-10 shrink-0">
+              <div className="flex flex-row items-center justify-between gap-3 px-6 py-4 border-b border-slate-200/50 dark:border-slate-700/50 bg-white/40 dark:bg-slate-900/40 backdrop-blur-md z-10 shrink-0">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-900/50 px-2 py-0.5 rounded-md">
@@ -225,7 +225,6 @@ export default function CertificationsSection() {
               <div className="relative w-full p-4 sm:p-6 flex-1 min-h-0 flex items-center justify-center overflow-hidden">
                 {selectedCert ? (
                   <div className="w-full aspect-[1.414/1] max-w-5xl relative rounded-xl shadow-2xl ring-1 ring-slate-900/5 dark:ring-white/10 overflow-hidden bg-white group">
-                    {/* Hover sheen effect on document frame */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-10" />
                     
                     {isImage(selectedCert.pdf) ? (
@@ -253,6 +252,113 @@ export default function CertificationsSection() {
               </div>
             </div>
 
+          </div>
+        </AnimatedSection>
+
+        {/* ── DEDICATED MOBILE CARD VIEW (< 1024px) ── */}
+        <AnimatedSection direction="up" delay={100} className="block lg:hidden space-y-4 pt-2 pb-8">
+          <div className="flex items-center justify-between px-1">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Award size={18} className="text-indigo-500" />
+              <span>Credentials</span>
+            </h3>
+            <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-200 dark:border-indigo-500/20">
+              {filteredCerts.length} Verified
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            {filteredCerts.map((cert, idx) => (
+              <div 
+                key={cert.title + idx}
+                className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-lg space-y-4"
+              >
+                {/* Header */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/50 dark:border-indigo-800/50 px-2.5 py-0.5 rounded-md mb-2">
+                      {cert.category}
+                    </span>
+                    <h4 className="text-base font-bold text-slate-900 dark:text-white leading-tight">
+                      {cert.title}
+                    </h4>
+                  </div>
+                  <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-200/50 dark:border-indigo-800/40">
+                    <Award size={18} />
+                  </div>
+                </div>
+
+                {/* Issuer & Date */}
+                <div className="flex items-center gap-3 text-xs font-medium text-slate-600 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800/60 pt-3">
+                  <span className="flex items-center gap-1.5">
+                    <Building2 size={14} className="text-indigo-500" />
+                    {cert.issuer}
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-700">•</span>
+                  <span className="flex items-center gap-1.5">
+                    <Calendar size={14} className="text-indigo-500" />
+                    {cert.date}
+                  </span>
+                </div>
+
+                {/* Certificate Image Preview Box */}
+                {cert.pdf && (
+                  <div 
+                    onClick={() => {
+                      setSelectedCertIndex(idx);
+                      setIsModalOpen(true);
+                    }}
+                    className="relative w-full aspect-[1.414/1] rounded-xl overflow-hidden bg-slate-950/80 border border-slate-200 dark:border-slate-800 cursor-pointer group shadow-md"
+                  >
+                    {isImage(cert.pdf) ? (
+                      <LazyImage
+                        src={cert.pdf}
+                        alt={cert.title}
+                        className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                        containerClassName="w-full h-full flex items-center justify-center"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-4 text-slate-400">
+                        <FileText size={32} className="text-indigo-400" />
+                        <span className="text-xs font-semibold">Tap to preview document</span>
+                      </div>
+                    )}
+                    
+                    <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="bg-slate-900/90 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
+                        <Maximize2 size={14} />
+                        View Fullscreen
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex items-center gap-3 pt-1">
+                  <a
+                    href={cert.pdf}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 inline-flex items-center justify-center gap-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 py-2.5 rounded-xl transition-all shadow-sm"
+                  >
+                    <FileText size={14} />
+                    Open Original
+                  </a>
+                  {cert.pdf && (
+                    <button
+                      onClick={() => {
+                        setSelectedCertIndex(idx);
+                        setIsModalOpen(true);
+                      }}
+                      className="p-2.5 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700"
+                      aria-label="View Fullscreen"
+                    >
+                      <Maximize2 size={16} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </AnimatedSection>
 

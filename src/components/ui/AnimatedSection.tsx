@@ -57,18 +57,18 @@ export default function AnimatedSection({
 
     switch (direction) {
       case 'left':
-        return 'opacity-0 -translate-x-14 translate-y-0 scale-95 blur-sm';
+        return 'opacity-0 translate-x-0 md:-translate-x-14 translate-y-6 md:translate-y-0 scale-98 md:scale-95 md:blur-sm';
       case 'right':
-        return 'opacity-0 translate-x-14 translate-y-0 scale-95 blur-sm';
+        return 'opacity-0 translate-x-0 md:translate-x-14 translate-y-6 md:translate-y-0 scale-98 md:scale-95 md:blur-sm';
       case 'down':
-        return 'opacity-0 translate-x-0 -translate-y-14 scale-95 blur-sm';
+        return 'opacity-0 translate-x-0 -translate-y-6 md:-translate-y-14 scale-98 md:scale-95 md:blur-sm';
       case 'zoom':
-        return 'opacity-0 translate-x-0 translate-y-0 scale-90 blur-sm';
+        return 'opacity-0 translate-x-0 translate-y-0 scale-95 md:scale-90 md:blur-sm';
       case 'fade':
-        return 'opacity-0 translate-x-0 translate-y-0 scale-100 blur-sm';
+        return 'opacity-0 translate-x-0 translate-y-0 scale-100 md:blur-sm';
       case 'up':
       default:
-        return 'opacity-0 translate-x-0 translate-y-14 scale-95 blur-sm';
+        return 'opacity-0 translate-x-0 translate-y-6 md:translate-y-14 scale-98 md:scale-95 md:blur-sm';
     }
   };
 

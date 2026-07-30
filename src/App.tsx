@@ -64,8 +64,8 @@ function App() {
   return (
     <div className="relative min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300">
       
-      {/* Immersive liquid morphism animated background glows */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      {/* Immersive liquid morphism animated background glows (hidden on mobile to save GPU resources) */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 hidden md:block">
         <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-purple-600/15 dark:bg-purple-500/10 blur-[130px] animate-blob-1"></div>
         <div className="absolute top-[20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-indigo-600/15 dark:bg-indigo-500/10 blur-[150px] animate-blob-2"></div>
         <div className="absolute bottom-[10%] left-[5%] w-[450px] h-[450px] rounded-full bg-fuchsia-600/10 dark:bg-fuchsia-500/5 blur-[120px] animate-blob-1"></div>

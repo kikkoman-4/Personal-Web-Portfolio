@@ -228,13 +228,240 @@ const STAT_ICONS = [Trophy, Code2, Users, Award];
 
 // ─── Main section ─────────────────────────────────────────────────────────────
 export default function AboutSection() {
+  const [activeMobileTab, setActiveMobileTab] = useState<'overview' | 'experience' | 'skills'>('overview');
+
   return (
-    <section id="about" className="py-24 scroll-mt-16">
-      <div className="grid md:grid-cols-12 gap-8 lg:gap-10 items-start">
+    <section id="about" className="py-16 md:py-24 scroll-mt-16">
+      {/* ── DEDICATED MOBILE VIEW (< 768px) ── */}
+      <div className="block md:hidden space-y-6">
+        {/* Compact Mobile Profile Header Card */}
+        <AnimatedSection direction="up" className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-lg text-center space-y-4">
+          <div className="w-28 h-28 mx-auto rounded-full overflow-hidden border-2 border-indigo-500/40 shadow-xl bg-slate-100 dark:bg-slate-800">
+            <LazyImage
+              src="/thumbnails/gradpic_small.jpg"
+              alt={PERSONAL_INFO.name}
+              className="object-cover w-full h-full"
+              containerClassName="w-full h-full"
+            />
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+              {PERSONAL_INFO.name}
+            </h2>
+            <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
+              @kikkoman-4
+            </div>
+            <div className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 mt-1">
+              {PERSONAL_INFO.title}
+            </div>
+          </div>
+
+          {/* Quick Contact & Social Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80">
+            <div className="inline-flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full">
+              <MapPin size={13} className="text-indigo-500 shrink-0" />
+              <span>{PERSONAL_INFO.location}</span>
+            </div>
+            <a
+              href={`mailto:${PERSONAL_INFO.email}`}
+              className="inline-flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-1.5 rounded-full transition-colors"
+            >
+              <Mail size={13} className="text-indigo-500 shrink-0" />
+              <span>Email</span>
+            </a>
+            <a
+              href={PERSONAL_INFO.socials.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-1.5 rounded-full transition-colors"
+            >
+              <Github size={13} className="text-indigo-500 shrink-0" />
+              <span>GitHub</span>
+            </a>
+            <a
+              href={PERSONAL_INFO.socials.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-1.5 rounded-full transition-colors"
+            >
+              <Linkedin size={13} className="text-indigo-500 shrink-0" />
+              <span>LinkedIn</span>
+            </a>
+          </div>
+        </AnimatedSection>
+
+        {/* Mobile View Tab Selector */}
+        <div className="flex bg-slate-200/60 dark:bg-slate-900/80 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800/80 shadow-inner">
+          <button
+            onClick={() => setActiveMobileTab('overview')}
+            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
+              activeMobileTab === 'overview'
+                ? 'bg-indigo-600 text-white shadow-md'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setActiveMobileTab('experience')}
+            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
+              activeMobileTab === 'experience'
+                ? 'bg-indigo-600 text-white shadow-md'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Experience
+          </button>
+          <button
+            onClick={() => setActiveMobileTab('skills')}
+            className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all ${
+              activeMobileTab === 'skills'
+                ? 'bg-indigo-600 text-white shadow-md'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            }`}
+          >
+            Skills & Edu
+          </button>
+        </div>
+
+        {/* Mobile Tab Content */}
+        {activeMobileTab === 'overview' && (
+          <div className="space-y-6 animate-fade-in">
+            {/* README Box */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 overflow-hidden shadow-sm p-6 space-y-4">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border border-indigo-200/50 dark:border-indigo-800/50">
+                <User size={14} />
+                <span>{ABOUT_CONTENT.tagline}</span>
+              </div>
+              <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+                {ABOUT_CONTENT.title}
+              </h3>
+              {ABOUT_CONTENT.paragraphs.map((paragraph, pIdx) => (
+                <p key={pIdx} className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+
+            {/* Professional Stats */}
+            <div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3">
+                <TrendingUp size={16} className="text-indigo-500" />
+                <span>Professional Stats</span>
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                {STATS.map((stat, idx) => {
+                  const IconComponent = STAT_ICONS[idx % STAT_ICONS.length];
+                  return (
+                    <div
+                      key={idx}
+                      className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-4 shadow-sm"
+                    >
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                          {stat.label}
+                        </span>
+                        <IconComponent size={15} className="text-indigo-500" />
+                      </div>
+                      <div className="text-2xl font-bold font-mono text-indigo-600 dark:text-indigo-400">
+                        {stat.value}
+                      </div>
+                      <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+                        {stat.description}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeMobileTab === 'experience' && (
+          <div className="space-y-6 animate-fade-in">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Briefcase size={16} className="text-indigo-500" />
+              <span>Professional Experience</span>
+            </h3>
+            <div className="relative pl-6 border-l border-slate-200 dark:border-slate-800 space-y-6">
+              {EXPERIENCE.map((exp, index) => (
+                <ExperienceEntry key={index} exp={exp} index={index} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeMobileTab === 'skills' && (
+          <div className="space-y-6 animate-fade-in">
+            {/* Core Strengths */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 space-y-3">
+              <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                Core Strengths
+              </h3>
+              <div className="flex flex-wrap gap-1.5">
+                {STRENGTHS.map((strength, idx) => (
+                  <span
+                    key={idx}
+                    className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/50"
+                  >
+                    {strength}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Education */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 space-y-3">
+              <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <GraduationCap size={15} className="text-indigo-500" />
+                <span>Education</span>
+              </h3>
+              <div className="space-y-3">
+                {EDUCATION.map((edu, idx) => (
+                  <div key={idx} className="text-left">
+                    <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                      {edu.degree}
+                    </h4>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">
+                      {edu.institution}
+                    </div>
+                    <div className="text-[10px] font-mono font-semibold text-indigo-600 dark:text-indigo-400">
+                      {edu.period}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Languages */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 space-y-3">
+              <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <Globe size={15} className="text-indigo-500" />
+                <span>Languages</span>
+              </h3>
+              <div className="space-y-2">
+                {LANGUAGES.map((lang, idx) => (
+                  <div key={idx} className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2.5 h-2.5 rounded-full ${idx === 0 ? 'bg-indigo-500' : 'bg-amber-400'}`} />
+                      <span className="text-slate-700 dark:text-slate-300">{lang.name}</span>
+                    </div>
+                    <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400">{lang.level}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── DESKTOP VIEW (>= 768px) ── */}
+      <div className="hidden md:grid md:grid-cols-12 gap-8 lg:gap-10 items-start">
         {/* Left Column (Sticky Sidebar - GitHub Profile Style) */}
         <AnimatedSection
           direction="left"
-          className="md:col-span-4 lg:col-span-4 md:sticky md:top-8 max-h-[calc(100vh-4rem)] overflow-y-auto scrollbar-hide space-y-6 text-left pb-4"
+          className="md:col-span-4 lg:col-span-4 md:sticky md:top-8 max-h-none overflow-visible md:max-h-[calc(100vh-4rem)] md:overflow-y-auto scrollbar-hide space-y-6 text-left pb-4"
         >
           {/* Avatar & Profile Identifiers */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">

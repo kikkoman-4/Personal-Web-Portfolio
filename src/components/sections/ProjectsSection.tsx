@@ -151,6 +151,28 @@ function ProjectCard({ proj }: { proj: typeof PROJECTS[0] }) {
             </span>
           ))}
         </div>
+
+        {/* Mobile Direct Touch Action Buttons */}
+        <div className="flex md:hidden items-center gap-3 pt-4 mt-3 border-t border-slate-100 dark:border-slate-800/50">
+          <a
+            href={proj.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 flex items-center justify-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold py-2.5 rounded-xl border border-slate-200 dark:border-slate-700"
+          >
+            <Github size={14} />
+            <span>Source</span>
+          </a>
+          <a
+            href={proj.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 flex items-center justify-center gap-1.5 bg-indigo-600 text-white text-xs font-semibold py-2.5 rounded-xl shadow-sm"
+          >
+            <ExternalLink size={14} />
+            <span>Live Demo</span>
+          </a>
+        </div>
       </div>
     </div>
   );

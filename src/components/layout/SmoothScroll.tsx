@@ -35,6 +35,12 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({
   const [lenis, setLenis] = useState<Lenis | null>(null);
 
   useEffect(() => {
+    // Disable smooth scroll library on mobile devices to preserve native touch scroll physics & performance
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (isMobile) {
+      return;
+    }
+
     // ── Lenis (matching reference: autoRaf: false, lerp: 0.08) ────────────
     const lenisInstance = new Lenis({
       lerp: 0.08,
@@ -77,9 +83,6 @@ export const SmoothScroll: React.FC<SmoothScrollProps> = ({
         if (el && snapInstance) {
           const remove = snapInstance.addElement(el, { align: ['start'] });
           removeSnapFns.push(remove);
-          console.log(`[Snap] registered #${id}`, el.getBoundingClientRect());
-        } else {
-          console.warn(`[Snap] element #${id} not found`);
         }
       });
     };
