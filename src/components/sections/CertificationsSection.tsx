@@ -17,6 +17,21 @@ export default function CertificationsSection() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedCertIndex, setSelectedCertIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mobileCardIndex, setMobileCardIndex] = useState(0);
+
+  // Touch swipe state
+  const touchStartX = useState<number | null>(null);
+  const handleTouchStart = (e: React.TouchEvent) => { touchStartX[1](e.touches[0].clientX); };
+  const handleTouchEnd = (e: React.TouchEvent, total: number) => {
+    const start = touchStartX[0];
+    if (start === null) return;
+    const diff = start - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) setMobileCardIndex(i => Math.min(i + 1, total - 1));
+      else setMobileCardIndex(i => Math.max(i - 1, 0));
+    }
+    touchStartX[1](null);
+  };
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -51,6 +66,7 @@ export default function CertificationsSection() {
   const handleFilterChange = (cat: string) => {
     setActiveFilter(cat);
     setSelectedCertIndex(0);
+    setMobileCardIndex(0);
   };
 
   const isImage = (path: string) => Boolean(path.match(/\.(png|jpe?g|webp|gif|svg)$/i));
@@ -103,7 +119,7 @@ export default function CertificationsSection() {
         </AnimatedSection>
 
         {/* ── Premium Unified Glass Window (DESKTOP VIEW >= 1024px) ── */}
-        <AnimatedSection direction="up" delay={100} className="hidden lg:flex flex-1 min-h-0 flex-col">
+        <AnimatedSection direction="up" delay={100} className="hidden lg:flex flex-1 min-h-0 flex-col" threshold={0.05}>
           <div className="flex flex-row flex-1 min-h-0 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-slate-200/50 dark:border-slate-700/50 rounded-3xl shadow-2xl overflow-hidden ring-1 ring-white/10">
             
             {/* ── LEFT PANEL: Master List ── */}
@@ -255,27 +271,31 @@ export default function CertificationsSection() {
           </div>
         </AnimatedSection>
 
-        {/* ── DEDICATED MOBILE CARD VIEW (< 1024px) ── */}
-        <AnimatedSection direction="up" delay={100} className="block lg:hidden space-y-4 pt-2 pb-8">
-          <div className="flex items-center justify-between px-1">
-            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Award size={18} className="text-indigo-500" />
-              <span>Credentials</span>
+        {/* ── MOBILE CAROUSEL VIEW (< 1024px) ── */}
+        <div className="block lg:hidden pt-2 pb-6">
+          {/* Card counter */}
+          <div className="flex items-center justify-between px-1 mb-3">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Award size={16} className="text-indigo-500" />
+              Credentials
             </h3>
-            <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-200 dark:border-indigo-500/20">
-              {filteredCerts.length} Verified
+            <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/50 dark:border-indigo-800/50 px-2.5 py-0.5 rounded-full">
+              {mobileCardIndex + 1} / {filteredCerts.length}
             </span>
           </div>
 
-          <div className="space-y-4">
-            {filteredCerts.map((cert, idx) => (
-              <div 
-                key={cert.title + idx}
-                className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-lg space-y-4"
+          {/* Single card */}
+          {filteredCerts.length > 0 && (() => {
+            const cert = filteredCerts[mobileCardIndex] || filteredCerts[0];
+            return (
+              <div
+                onTouchStart={handleTouchStart}
+                onTouchEnd={(e) => handleTouchEnd(e, filteredCerts.length)}
+                className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800 rounded-2xl p-5 shadow-lg space-y-3 select-none"
               >
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/50 dark:border-indigo-800/50 px-2.5 py-0.5 rounded-md mb-2">
                       {cert.category}
                     </span>
@@ -289,78 +309,117 @@ export default function CertificationsSection() {
                 </div>
 
                 {/* Issuer & Date */}
-                <div className="flex items-center gap-3 text-xs font-medium text-slate-600 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800/60 pt-3">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-medium text-slate-600 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800/60 pt-3">
                   <span className="flex items-center gap-1.5">
-                    <Building2 size={14} className="text-indigo-500" />
+                    <Building2 size={13} className="text-indigo-500 shrink-0" />
                     {cert.issuer}
                   </span>
                   <span className="text-slate-300 dark:text-slate-700">•</span>
                   <span className="flex items-center gap-1.5">
-                    <Calendar size={14} className="text-indigo-500" />
+                    <Calendar size={13} className="text-indigo-500 shrink-0" />
                     {cert.date}
                   </span>
                 </div>
 
-                {/* Certificate Image Preview Box */}
+                {/* Mini Preview */}
                 {cert.pdf && (
-                  <div 
+                  <div
                     onClick={() => {
-                      setSelectedCertIndex(idx);
+                      setSelectedCertIndex(mobileCardIndex);
                       setIsModalOpen(true);
                     }}
-                    className="relative w-full aspect-[1.414/1] rounded-xl overflow-hidden bg-slate-950/80 border border-slate-200 dark:border-slate-800 cursor-pointer group shadow-md"
+                    className="relative w-full h-36 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 cursor-pointer group shadow-inner"
                   >
                     {isImage(cert.pdf) ? (
                       <LazyImage
                         src={cert.pdf}
                         alt={cert.title}
-                        className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                        className="w-full h-full object-contain p-2 transition-transform duration-300 group-active:scale-105"
                         containerClassName="w-full h-full flex items-center justify-center"
                       />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-4 text-slate-400">
-                        <FileText size={32} className="text-indigo-400" />
-                        <span className="text-xs font-semibold">Tap to preview document</span>
+                      <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-slate-400 dark:text-slate-500">
+                        <FileText size={28} className="text-indigo-400" />
+                        <span className="text-[11px] font-semibold">Tap to preview</span>
                       </div>
                     )}
-                    
-                    <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="bg-slate-900/90 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
-                        <Maximize2 size={14} />
-                        View Fullscreen
+                    {/* Tap-to-expand hint */}
+                    <div className="absolute inset-0 bg-slate-900/0 group-active:bg-slate-900/20 transition-colors flex items-end justify-end p-2">
+                      <span className="bg-slate-900/70 text-white text-[10px] font-bold px-2 py-1 rounded-lg flex items-center gap-1 opacity-60">
+                        <Maximize2 size={10} /> Expand
                       </span>
                     </div>
                   </div>
                 )}
 
                 {/* Action Buttons */}
-                <div className="flex items-center gap-3 pt-1">
+                <div className="flex items-center gap-2 pt-1">
                   <a
                     href={cert.pdf}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 inline-flex items-center justify-center gap-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 py-2.5 rounded-xl transition-all shadow-sm"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 py-2.5 rounded-xl transition-all shadow-sm"
                   >
-                    <FileText size={14} />
+                    <FileText size={13} />
                     Open Original
                   </a>
                   {cert.pdf && (
                     <button
                       onClick={() => {
-                        setSelectedCertIndex(idx);
+                        setSelectedCertIndex(mobileCardIndex);
                         setIsModalOpen(true);
                       }}
                       className="p-2.5 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700"
                       aria-label="View Fullscreen"
                     >
-                      <Maximize2 size={16} />
+                      <Maximize2 size={15} />
                     </button>
                   )}
                 </div>
               </div>
-            ))}
+            );
+          })()}
+
+          {/* Prev / Next navigation */}
+          <div className="flex items-center justify-between mt-4 gap-3">
+            <button
+              onClick={() => setMobileCardIndex(i => Math.max(i - 1, 0))}
+              disabled={mobileCardIndex === 0}
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95"
+            >
+              ← Prev
+            </button>
+
+            {/* Dot indicators — show max 7 dots */}
+            <div className="flex items-center gap-1">
+              {filteredCerts.slice(
+                Math.max(0, mobileCardIndex - 3),
+                Math.min(filteredCerts.length, mobileCardIndex + 4)
+              ).map((_, i) => {
+                const realIdx = Math.max(0, mobileCardIndex - 3) + i;
+                return (
+                  <button
+                    key={realIdx}
+                    onClick={() => setMobileCardIndex(realIdx)}
+                    className={`rounded-full transition-all duration-200 ${
+                      realIdx === mobileCardIndex
+                        ? 'w-4 h-2 bg-indigo-500'
+                        : 'w-1.5 h-1.5 bg-slate-300 dark:bg-slate-600'
+                    }`}
+                  />
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => setMobileCardIndex(i => Math.min(i + 1, filteredCerts.length - 1))}
+              disabled={mobileCardIndex === filteredCerts.length - 1}
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 text-sm font-semibold rounded-xl border border-slate-200 dark:border-slate-700 bg-white/70 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all active:scale-95"
+            >
+              Next →
+            </button>
           </div>
-        </AnimatedSection>
+        </div>
 
       </div>
 
