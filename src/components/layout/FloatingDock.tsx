@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Sparkles, User, FolderGit, Calendar, Award, Mail } from 'lucide-react';
 
 interface FloatingDockProps {
@@ -9,9 +10,23 @@ interface FloatingDockProps {
 export default function FloatingDock({ activeSection, scrollToSection }: FloatingDockProps) {
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
   const [isIdle, setIsIdle] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const sections = ['hero', 'about', 'projects', 'events', 'certifications', 'contact'];
+
+  const sectionLabels: Record<string, string> = {
+    hero: 'Home',
+    about: 'About',
+    projects: 'Projects',
+    events: 'Events',
+    certifications: 'Certs',
+    contact: 'Contact',
+  };
 
   // Short display labels — keeps bubble from overflowing on long names
   const navLabels: Record<string, string> = {
@@ -56,35 +71,43 @@ export default function FloatingDock({ activeSection, scrollToSection }: Floatin
     };
   }, [activeSection]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <>
-      {/* ── MOBILE LIGHTWEIGHT DOCK (< 768px) ── */}
+      {/* ── MOBILE STREAMLINED FLOATING DOCK (< 768px) ── */}
       <nav 
-        className="fixed z-50 left-1/2 -translate-x-1/2 bottom-4 flex md:hidden items-center justify-around bg-slate-900/90 dark:bg-slate-950/90 backdrop-blur-xl border border-slate-800/80 rounded-full px-3 py-2 shadow-2xl max-w-[92vw]"
+        className="fixed z-[9999] bottom-4 inset-x-0 mx-auto w-fit max-w-[95vw] flex md:hidden items-center gap-1.5 bg-slate-900/95 dark:bg-slate-950/95 backdrop-blur-2xl border border-slate-800/80 rounded-full px-2.5 py-2 shadow-[0_10px_30px_rgba(0,0,0,0.6)] transition-all duration-300 pointer-events-auto"
         aria-label="Mobile Navigation"
       >
         {sections.map((item) => {
           const isActive = activeSection === item;
+          const label = sectionLabels[item] || item;
+
           return (
             <button
               key={`mobile-${item}`}
               onClick={() => scrollToSection(item)}
-              className={`relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 cursor-pointer ${
+              className={`relative flex items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer rounded-full ${
                 isActive 
-                  ? 'bg-indigo-600/30 text-indigo-400 font-bold scale-105' 
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-indigo-600/35 text-indigo-300 border border-indigo-500/40 px-3.5 py-1.5 font-semibold text-xs shadow-inner' 
+                  : 'text-slate-400 hover:text-white w-9 h-9'
               }`}
               aria-label={`Scroll to ${item}`}
             >
-              {item === 'hero' && <Sparkles size={18} />}
-              {item === 'about' && <User size={18} />}
-              {item === 'projects' && <FolderGit size={18} />}
-              {item === 'events' && <Calendar size={18} />}
-              {item === 'certifications' && <Award size={18} />}
-              {item === 'contact' && <Mail size={18} />}
-              
+              <span className={isActive ? 'text-indigo-400 shrink-0' : 'shrink-0'}>
+                {item === 'hero' && <Sparkles size={17} />}
+                {item === 'about' && <User size={17} />}
+                {item === 'projects' && <FolderGit size={17} />}
+                {item === 'events' && <Calendar size={17} />}
+                {item === 'certifications' && <Award size={17} />}
+                {item === 'contact' && <Mail size={17} />}
+              </span>
+
               {isActive && (
-                <span className="absolute -bottom-1 w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,1)]" />
+                <span className="whitespace-nowrap transition-all duration-200">
+                  {label}
+                </span>
               )}
             </button>
           );
@@ -93,7 +116,7 @@ export default function FloatingDock({ activeSection, scrollToSection }: Floatin
 
       {/* ── DESKTOP LIQUID MORPHING DOCK (>= 768px) ── */}
       <div 
-        className="hidden md:block fixed z-50 right-8 top-1/2 -translate-y-1/2"
+        className="hidden md:block fixed z-[9999] right-8 top-1/2 -translate-y-1/2 pointer-events-auto"
         onMouseLeave={() => setHoveredSection(null)}
       >
         {/* SVG Liquid/Gooey Filter Definition */}
@@ -183,6 +206,7 @@ export default function FloatingDock({ activeSection, scrollToSection }: Floatin
           })}
         </div>
       </div>
-    </>
+    </>,
+    document.body
   );
 }
