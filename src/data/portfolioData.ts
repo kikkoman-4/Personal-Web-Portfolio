@@ -103,15 +103,6 @@ export const PROJECTS = [
     thumbnail: "/thumbnails/hildr.jpg"
   },
   {
-    title: "YGG Pilipinas Game Jam Hackathon",
-    description: "A responsive digital storefront for booking creative services (web development, photography, videography) built using Next.js and Tailwind CSS with custom React state animations.",
-    tags: ["Next.js", "React", "TailwindCSS", "UI/UX", "Responsive Design"],
-    github: PERSONAL_INFO.socials.github,
-    demo: "https://www.hildrstudios.com",
-    category: "Freelance Work",
-    thumbnail: "/thumbnails/hildr.jpg"
-  },
-  {
     title: "Bagong Cotta LGU Website",
     description: "A PHP-based public service portal digitizing administrative dashboards, online certification requests, and local community news hubs with a focus on responsive and accessible interfaces.",
     tags: ["PHP", "JavaScript", "MySQL", "LGU Portal", "Bootstrap"],
@@ -596,6 +587,20 @@ export interface EventsContent {
 // Events Array with sample data covering all categories
 export const EVENTS: Event[] = [
   {
+    title: "Remix Game Jam",
+    date: "#",
+    description: "Participated in a 48-hour game development hackathon organized by Yield Guild Games Philippines. Built a web-based multiplayer game using React and WebSockets, focusing on real-time gameplay mechanics and responsive UI design.",
+    category: "hackathon",
+    location: "Online",
+    achievement: "Participant",
+    tags: ["HTML", "CSS", "WebSockets", "Game Dev", "JavaScript", "Singleplayer"],
+    links: {
+      external: "https://remix.gg/g/8a843fb0-0391-4c4d-aaf9-9b7992c9d491",
+      github: "https://github.com/kikkoman-4/zus"
+    },
+    images: ["/thumbnails/rmix.png"]
+  },
+  {
     title: "YGG Pilipinas Game Jam Hackathon",
     date: "February 2025",
     description: "Participated in a 48-hour game development hackathon organized by Yield Guild Games Philippines. Built a web-based multiplayer game using React and WebSockets, focusing on real-time gameplay mechanics and responsive UI design.",
@@ -610,16 +615,14 @@ export const EVENTS: Event[] = [
     images: ["/thumbnails/placeholder-hackathon.svg"]
   },
   {
-    title: "Globe AcadArena 2025",
+    title: "Globe AcadArena Awards 2025",
     date: "August 26, 2025",
-    description: "Attended a full-day conference on modern web technologies, cloud architecture, and API integration strategies. Gained insights into scalable application design and emerging industry trends from leading tech professionals.",
+    description: "Recognized as a Top 4 Finalist in the prestigious Globe AcadArena Awards, which celebrates the best collegiate esports organizations across the Philippines. Led initiatives in community building, competitive tournament management, and fostering inclusive gaming culture within our school organization.",
     category: "milestone",
     location: "BGC Taguig City, Philippines",
+    achievement: "Top 4 Finalist",
     tags: ["Leadership", "Gaming", "School Organization", "AcadArena"],
-    links: {
-      certificate: "#"
-    },
-    images: ["/thumbnails/AA_awards.jpg"]
+    images: ["/thumbnails/AA_awards.jpg", "/thumbnails/AA_awards (2).jpg"]
   },
   {
     title: "Globe Developers Conference 2025",
@@ -647,30 +650,28 @@ export const EVENTS: Event[] = [
   {
     title: "STI Tagisan ng Talino Competition",
     date: "November 2024",
-    description: "",
+    description: "Competed in STI's premier hackathon competition focused on innovative mobile application development and UI/UX design. Collaborated with a team to conceptualize and prototype a mobile solution addressing real-world problems, showcasing technical skills and creative problem-solving abilities.",
     category: "competition",
     location: "STI College Lucena",
-    achievement: "Top 3 Finalist",
-    tags: ["Mobile App", "App Design"],
-    links: {
-      github: "#"
-    },
-    images: ["/thumbnails/placeholder-competition.svg"]
+    achievement: "3rd Place",
+    tags: ["Mobile App", "App Design", "UI/UX", "Hackathon"],
+    images: ["/thumbnails/STI_hackathon.jpg", "/thumbnails/STI_hackathon (2).jpg"]
   },
   {
     title: "DLSU Hackercup 2025",
-    date: "2025",
+    date: "August 15-16, 2025",
     description: "Participated in an intensive coding hackathon focused on algorithmic problem-solving and efficient data structure implementation. Collaborated with a team to develop creative solutions under time constraints while maintaining code quality.",
     category: "hackathon",
+    achievement: "Participant",
     location: "Manila, Philippines",
     tags: ["Algorithms", "Data Structures", "Problem Solving", "Teamwork", "Software Development", "App Design"],
     links: {
       certificate: "/certs/Dogarithms.pdf"
     },
-    images: ["/thumbnails/placeholder-hackathon.svg"]
+    images: ["/certs/Dogarithms.pdf"]
   },
   {
-    title: "GDG Developer Seminar",
+    title: "Google Developers Group PUP: Build Your Cloud Arsenal: A Deep Dive into GCP Compute Services Seminar",
     date: "2025",
     description: "Attended Google Developer Groups meetup featuring technical talks on modern web development, cloud technologies, and developer tools. Networked with fellow developers and learned about best practices in software engineering.",
     category: "seminar",
@@ -679,13 +680,14 @@ export const EVENTS: Event[] = [
     links: {
       certificate: "/certs/GDG-Certificate-AA_Kikz_H__Afable.pdf"
     },
-    images: ["/thumbnails/placeholder-seminar.svg"]
+    images: ["/certs/GDG-Certificate-AA_Kikz_H__Afable.pdf"]
   },
   {
-    title: "Inventi Hackathon",
-    date: "2024",
+    title: "Inventi Hackathon Challenge",
+    date: "September 29, 2025",
     description: "",
     category: "competition",
+    achievement: "Participant",
     location: "online",
     tags: ["Software Development", "Web Dev", "Developer Tools", "Networking"],
     links: {

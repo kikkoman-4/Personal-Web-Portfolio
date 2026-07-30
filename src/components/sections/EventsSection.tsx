@@ -1,4 +1,4 @@
-import { Calendar, ExternalLink, MapPin, Award, X } from 'lucide-react';
+import { Calendar, ExternalLink, MapPin, Award, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { EVENTS, EVENTS_CONTENT, type Event, type EventCategory } from '../../data/portfolioData';
 import { Github } from '../ui/Icons';
 import AnimatedSection from '../ui/AnimatedSection';
@@ -15,19 +15,47 @@ const categoryColors: Record<EventCategory, string> = {
 
 export default function EventsSection() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [direction, setDirection] = useState<'left' | 'right'>('right');
+  const eventsPerPage = 5; // 1 featured + 4 list items
 
-  // Filter to show only hackathons and seminars, then sort by date
+  // Sort all events by date (newest first)
   const sortedEvents = [...EVENTS]
-    .filter(event => event.category === 'hackathon' || event.category === 'seminar')
     .sort((a, b) => {
-      // Parse dates for proper sorting (newest first)
       const dateA = new Date(a.date).getTime() || 0;
       const dateB = new Date(b.date).getTime() || 0;
       return dateB - dateA;
     });
 
+  // Pagination
+  const totalPages = Math.ceil(sortedEvents.length / eventsPerPage);
+  const startIndex = currentPage * eventsPerPage;
+  const currentEvents = sortedEvents.slice(startIndex, startIndex + eventsPerPage);
+  
+  const featuredEvent = currentEvents[0];
+  const listEvents = currentEvents.slice(1);
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages - 1) {
+      setDirection('right');
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (currentPage > 0) {
+      setDirection('left');
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const goToPage = (page: number) => {
+    setDirection(page > currentPage ? 'right' : 'left');
+    setCurrentPage(page);
+  };
+
   return (
-    <section id="events" className="py-24 scroll-mt-16 text-left">
+    <section id="events" className="py-24 scroll-mt-16 text-left w-full px-6 lg:px-12">
       {/* Section Header */}
       <AnimatedSection direction="up">
         <div className="text-center mb-16">
@@ -44,30 +72,80 @@ export default function EventsSection() {
         </div>
       </AnimatedSection>
 
-      {/* Bento Grid Layout - Dynamically Adjusts to Event Count */}
-      <AnimatedSection direction="up" delay={100}>
+      {/* Featured + List Layout */}
+      <div className="relative overflow-hidden">
         {sortedEvents.length === 0 ? (
           <div className="text-center py-16">
             <Calendar size={48} className="mx-auto mb-4 text-slate-300 dark:text-slate-700" />
             <p className="text-slate-500 dark:text-slate-500">No events to display yet.</p>
           </div>
         ) : (
-          <div className={`grid gap-4 ${getGridLayout(sortedEvents.length)}`}>
-            {sortedEvents.map((event, index) => {
-              const spanClass = getBentoSpan(index, sortedEvents.length);
-              
-              return (
-                <div
-                  key={index}
-                  className={spanClass}
-                >
-                  <EventBentoCard event={event} onClick={() => setSelectedEvent(event)} />
+          <>
+            <div
+              key={currentPage}
+              className={`grid grid-cols-1 lg:grid-cols-5 gap-6 animate-slide-${direction}`}
+            >
+              {/* Featured Event (Left - Large) */}
+              {featuredEvent && (
+                <div className="lg:col-span-3">
+                  <FeaturedEventCard event={featuredEvent} onClick={() => setSelectedEvent(featuredEvent)} />
                 </div>
-              );
-            })}
-          </div>
+              )}
+
+              {/* Event List (Right - Small Cards) */}
+              <div className="lg:col-span-2 flex flex-col gap-4">
+                {listEvents.map((event, index) => (
+                  <ListEventCard
+                    key={startIndex + index + 1}
+                    event={event}
+                    onClick={() => setSelectedEvent(event)}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-4 mt-12">
+                <button
+                  onClick={goToPrevPage}
+                  disabled={currentPage === 0}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:scale-105"
+                  aria-label="Previous page"
+                >
+                  <ChevronLeft size={18} />
+                  <span className="text-sm font-semibold">Previous</span>
+                </button>
+
+                <div className="flex items-center gap-2">
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => goToPage(i)}
+                      className={`rounded-full transition-all duration-300 ${
+                        i === currentPage
+                          ? 'bg-indigo-600 w-8 h-2.5'
+                          : 'bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600 w-2.5 h-2.5'
+                      }`}
+                      aria-label={`Go to page ${i + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages - 1}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:scale-105"
+                  aria-label="Next page"
+                >
+                  <span className="text-sm font-semibold">Next</span>
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            )}
+          </>
         )}
-      </AnimatedSection>
+      </div>
 
       {/* Event Detail Modal */}
       {selectedEvent && (
@@ -77,117 +155,137 @@ export default function EventsSection() {
   );
 }
 
-// Dynamic grid layout based on event count
-function getGridLayout(count: number): string {
-  if (count <= 2) return 'grid-cols-1 md:grid-cols-2 auto-rows-[300px]';
-  if (count <= 4) return 'grid-cols-1 md:grid-cols-2 auto-rows-[250px]';
-  if (count <= 6) return 'grid-cols-1 md:grid-cols-3 auto-rows-[200px]';
-  return 'grid-cols-1 md:grid-cols-3 lg:grid-cols-4 auto-rows-[200px]';
-}
+// Featured Event Card (Large - Left Side)
+function FeaturedEventCard({ event, onClick }: { event: Event; onClick: () => void }) {
+  const firstImage = event.images?.[0];
+  const isPdf = firstImage ? /\.pdf$/i.test(firstImage) : false;
+  const hasValidImage = firstImage && !isPdf;
 
-// Bento grid span logic that adapts to event count
-function getBentoSpan(index: number, totalCount: number): string {
-  // For 1-2 events: all full width
-  if (totalCount <= 2) {
-    return 'md:col-span-1 md:row-span-1';
-  }
-  
-  // For 3-4 events: 2x2 grid with equal sizes
-  if (totalCount <= 4) {
-    return 'md:col-span-1 md:row-span-1';
-  }
-  
-  // For 5-6 events: 3 columns with varying heights
-  if (totalCount <= 6) {
-    const patterns = [
-      'md:col-span-1 md:row-span-2', // Tall
-      'md:col-span-1 md:row-span-1', // Normal
-      'md:col-span-1 md:row-span-1', // Normal
-      'md:col-span-1 md:row-span-1', // Normal
-      'md:col-span-1 md:row-span-2', // Tall
-      'md:col-span-1 md:row-span-1', // Normal
-    ];
-    return patterns[index] || 'md:col-span-1 md:row-span-1';
-  }
-  
-  // For 7+ events: 4 column grid with occasional double-width cards
-  const patterns = [
-    'md:col-span-2 md:row-span-2', // Large feature
-    'md:col-span-1 md:row-span-1', // Normal
-    'md:col-span-1 md:row-span-1', // Normal
-    'md:col-span-1 md:row-span-2', // Tall
-    'md:col-span-1 md:row-span-1', // Normal
-    'md:col-span-2 md:row-span-1', // Wide
-    'md:col-span-1 md:row-span-1', // Normal
-    'md:col-span-1 md:row-span-1', // Normal
-  ];
-  return patterns[index % patterns.length];
-}
-
-function EventBentoCard({ event, onClick }: { event: Event; onClick: () => void }) {
   return (
     <article 
       onClick={onClick}
-      className="group relative h-full w-full bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-indigo-500/20 cursor-pointer"
+      className="group relative h-[500px] w-full bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-indigo-500/20 cursor-pointer"
     >
-      {/* Background Image with Overlay */}
-      {event.images && event.images.length > 0 ? (
+      {/* Background Image/PDF */}
+      {hasValidImage ? (
         <div className="absolute inset-0">
           <img
-            src={event.images[0]}
+            src={firstImage}
             alt={`${event.title} event`}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
             loading="lazy"
           />
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+        </div>
+      ) : isPdf && firstImage ? (
+        <div className="absolute inset-0">
+          <iframe
+            src={`${firstImage}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+            className="w-full h-full border-0 pointer-events-none scale-105"
+            title={`${event.title} certificate`}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10 pointer-events-none" />
         </div>
       ) : (
         <div className={`absolute inset-0 ${getCategoryGradient(event.category)}`} />
       )}
 
-      {/* Content Overlay */}
-      <div className="relative h-full flex flex-col justify-end p-6 text-white">
-        {/* Category Badge */}
-        <div className="absolute top-4 left-4">
-          <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border backdrop-blur-md ${categoryColors[event.category]}`}>
+      {/* Content */}
+      <div className="relative h-full flex flex-col justify-end p-8 text-white">
+        <div className="absolute top-6 left-6">
+          <span className={`text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border backdrop-blur-md ${categoryColors[event.category]}`}>
             {event.category}
           </span>
         </div>
 
-        {/* Achievement Badge (if exists) */}
         {event.achievement && (
-          <div className="absolute top-4 right-4">
-            <div className="flex items-center gap-1.5 bg-white/20 backdrop-blur-md border border-white/30 px-2.5 py-1 rounded-full">
-              <Award size={12} className="text-yellow-300" />
-              <span className="text-[10px] font-bold text-white">{event.achievement}</span>
+          <div className="absolute top-6 right-6">
+            <div className="flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 px-3 py-1.5 rounded-full">
+              <Award size={14} className="text-yellow-300" />
+              <span className="text-xs font-bold text-white">{event.achievement}</span>
             </div>
           </div>
         )}
 
-        {/* Date */}
-        <time className="text-xs font-medium text-white/80 mb-2">
+        <time className="text-sm font-medium text-white/80 mb-3">
           {event.date}
         </time>
 
-        {/* Title */}
-        <h3 className="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors line-clamp-2">
+        <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors leading-tight">
           {event.title}
         </h3>
 
-        {/* Location */}
         {event.location && (
-          <div className="flex items-center gap-1.5 text-xs text-white/70 mb-3">
-            <MapPin size={12} />
-            <span className="truncate">{event.location}</span>
+          <div className="flex items-center gap-2 text-sm text-white/80 mb-4">
+            <MapPin size={14} />
+            <span>{event.location}</span>
           </div>
         )}
 
-        {/* View Details Hint */}
-        <div className="flex items-center gap-1 text-xs font-semibold text-indigo-300 group-hover:gap-2 transition-all">
+        <div className="flex items-center gap-2 text-sm font-semibold text-indigo-300 group-hover:gap-3 transition-all">
           <span>Learn more</span>
           <span className="group-hover:translate-x-1 transition-transform">→</span>
         </div>
+      </div>
+    </article>
+  );
+}
+
+// List Event Card (Small - Right Side)
+function ListEventCard({ event, onClick }: { event: Event; onClick: () => void }) {
+  const firstImage = event.images?.[0];
+  const isPdf = firstImage ? /\.pdf$/i.test(firstImage) : false;
+  const hasValidImage = firstImage && !isPdf;
+
+  return (
+    <article 
+      onClick={onClick}
+      className="group relative h-[115px] w-full bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800/80 rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-indigo-500/10 cursor-pointer flex"
+    >
+      {/* Thumbnail */}
+      <div className="relative w-32 flex-shrink-0">
+        {hasValidImage ? (
+          <img
+            src={firstImage}
+            alt={`${event.title} event`}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            loading="lazy"
+          />
+        ) : isPdf && firstImage ? (
+          <iframe
+            src={`${firstImage}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+            className="w-full h-full border-0 pointer-events-none"
+            title={`${event.title} certificate`}
+          />
+        ) : (
+          <div className={`w-full h-full ${getCategoryGradient(event.category)}`} />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20" />
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 p-4 flex flex-col justify-between min-w-0">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${categoryColors[event.category]}`}>
+              {event.category}
+            </span>
+            {event.achievement && (
+              <div className="flex items-center gap-1 text-[9px] font-bold text-yellow-600 dark:text-yellow-400">
+                <Award size={10} />
+                <span className="truncate">{event.achievement}</span>
+              </div>
+            )}
+          </div>
+
+          <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2 leading-tight mb-1">
+            {event.title}
+          </h4>
+        </div>
+
+        <time className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+          {event.date}
+        </time>
       </div>
     </article>
   );
@@ -206,15 +304,23 @@ function getCategoryGradient(category: EventCategory): string {
 }
 
 function EventDetailModal({ event, onClose }: { event: Event; onClose: () => void }) {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
   // Close modal on escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        if (lightboxIndex !== null) {
+          setLightboxIndex(null);
+        } else {
+          onClose();
+        }
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  }, [onClose, lightboxIndex]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -224,14 +330,23 @@ function EventDetailModal({ event, onClose }: { event: Event; onClose: () => voi
     };
   }, []);
 
+  // Helper function to check if file is a PDF
+  const isPdfFile = (path: string) => /\.pdf$/i.test(path);
+
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
       onClick={onClose}
     >
       <div 
-        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-2xl shadow-2xl"
+        data-lenis-prevent
+        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-2xl shadow-2xl scrollbar-thin scrollbar-thumb-slate-400 dark:scrollbar-thumb-slate-600 scrollbar-track-slate-100 dark:scrollbar-track-slate-800"
         onClick={(e) => e.stopPropagation()}
+        onWheel={(e) => e.stopPropagation()}
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgb(148 163 184) rgb(241 245 249)'
+        }}
       >
         {/* Close Button */}
         <button
@@ -242,14 +357,22 @@ function EventDetailModal({ event, onClose }: { event: Event; onClose: () => voi
           <X size={20} className="text-slate-700 dark:text-slate-300" />
         </button>
 
-        {/* Event Image */}
+        {/* Event Image or PDF */}
         {event.images && event.images.length > 0 && (
           <div className="w-full h-64 md:h-80 overflow-hidden bg-slate-100 dark:bg-slate-800">
-            <img
-              src={event.images[0]}
-              alt={`${event.title} event`}
-              className="w-full h-full object-cover"
-            />
+            {isPdfFile(event.images[0]) ? (
+              <iframe
+                src={`${event.images[0]}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                className="w-full h-full border-0"
+                title={`${event.title} certificate`}
+              />
+            ) : (
+              <img
+                src={event.images[0]}
+                alt={`${event.title} event`}
+                className="w-full h-full object-cover"
+              />
+            )}
           </div>
         )}
 
@@ -315,15 +438,33 @@ function EventDetailModal({ event, onClose }: { event: Event; onClose: () => voi
             <div className="mb-6">
               <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3">Gallery</h4>
               <div className="grid grid-cols-2 gap-3">
-                {event.images.slice(1).map((img, idx) => (
-                  <div key={idx} className="aspect-video overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
-                    <img
-                      src={img}
-                      alt={`${event.title} image ${idx + 2}`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                ))}
+                {event.images.slice(1).map((img, idx) => {
+                  const actualIndex = idx + 1; // Since we sliced from index 1
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => !isPdfFile(img) && setLightboxIndex(actualIndex)}
+                      disabled={isPdfFile(img)}
+                      className={`aspect-video overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800 ${
+                        !isPdfFile(img) ? 'cursor-pointer hover:ring-2 hover:ring-indigo-500 transition-all' : ''
+                      }`}
+                    >
+                      {isPdfFile(img) ? (
+                        <iframe
+                          src={`${img}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                          className="w-full h-full border-0"
+                          title={`${event.title} document ${actualIndex + 1}`}
+                        />
+                      ) : (
+                        <img
+                          src={img}
+                          alt={`${event.title} image ${actualIndex + 1}`}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -373,6 +514,119 @@ function EventDetailModal({ event, onClose }: { event: Event; onClose: () => voi
             </div>
           )}
         </div>
+      </div>
+
+      {/* Image Lightbox */}
+      {lightboxIndex !== null && event.images && (
+        <ImageLightbox
+          images={event.images.filter(img => !isPdfFile(img))}
+          startIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          title={event.title}
+        />
+      )}
+    </div>
+  );
+}
+
+// Simple Image Lightbox Component
+function ImageLightbox({
+  images,
+  startIndex,
+  onClose,
+  title,
+}: {
+  images: string[];
+  startIndex: number;
+  onClose: () => void;
+  title: string;
+}) {
+  const [current, setCurrent] = useState(startIndex);
+
+  useEffect(() => {
+    setCurrent(startIndex);
+  }, [startIndex]);
+
+  const prev = () => setCurrent((i) => Math.max(0, i - 1));
+  const next = () => setCurrent((i) => Math.min(images.length - 1, i + 1));
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-lg animate-fade-in"
+      onClick={onClose}
+    >
+      <div
+        className="relative z-10 w-full max-w-6xl flex flex-col rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-900 shadow-2xl animate-popup"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 py-3 border-b border-slate-800 bg-slate-900/95 flex-shrink-0">
+          <div>
+            <p className="text-xs text-slate-400">{title}</p>
+            <p className="text-xs text-slate-500 tabular-nums font-mono">
+              {current + 1} / {images.length}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              disabled={current === 0}
+              onClick={prev}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              aria-label="Previous image"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              disabled={current === images.length - 1}
+              onClick={next}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              aria-label="Next image"
+            >
+              <ChevronRight size={16} />
+            </button>
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors ml-1"
+              aria-label="Close lightbox"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Image area */}
+        <div className="bg-slate-950 flex items-center justify-center min-h-[70vh] p-4">
+          <img
+            key={images[current]}
+            src={images[current]}
+            alt={`${title} image ${current + 1}`}
+            className="max-w-full max-h-[70vh] object-contain"
+          />
+        </div>
+
+        {/* Thumbnail strip */}
+        {images.length > 1 && (
+          <div className="flex gap-2 p-3 border-t border-slate-800 overflow-x-auto">
+            {images.map((src, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`flex-shrink-0 w-16 h-12 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                  i === current
+                    ? 'border-indigo-500 opacity-100 scale-105'
+                    : 'border-slate-700 opacity-50 hover:opacity-80'
+                }`}
+                aria-label={`View image ${i + 1}`}
+              >
+                <img
+                  src={src}
+                  alt={`Thumbnail ${i + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

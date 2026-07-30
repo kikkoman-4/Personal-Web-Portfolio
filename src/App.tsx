@@ -82,8 +82,10 @@ function App() {
       <main className="max-w-6xl mx-auto px-6 pt-8">
         <AboutSection />
         <ProjectsSection />
-        <EventsSection />
       </main>
+
+      {/* Full-viewport Events Section (outside narrow container) */}
+      <EventsSection />
 
       {/* Full-viewport Certifications Section (outside narrow container) */}
       <CertificationsSection />

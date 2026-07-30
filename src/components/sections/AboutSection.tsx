@@ -57,7 +57,11 @@ function Lightbox({
       }}
     >
       {/* Panel */}
-      <div className="relative z-10 w-full max-w-4xl flex flex-col rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-900 shadow-2xl animate-popup">
+      <div 
+        data-lenis-prevent
+        className="relative z-10 w-full max-w-4xl flex flex-col rounded-2xl overflow-hidden border border-slate-700/60 bg-slate-900 shadow-2xl animate-popup"
+        onWheel={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-3 border-b border-slate-800 bg-slate-900/95 flex-shrink-0">
           <div>
@@ -157,7 +161,7 @@ function ExperienceEntry({
         <div className="absolute -left-[32.5px] top-1.5 w-4 h-4 rounded-full bg-slate-300 dark:bg-slate-800 border-4 border-slate-50 dark:border-slate-950 group-hover:bg-indigo-600 dark:group-hover:bg-indigo-400 group-hover:scale-125 transition-all duration-200" />
 
         {/* Entry Card styled like GitHub activity item */}
-        <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-5 transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700/80 shadow-sm hover:shadow-md">
+        <div className="rounded-xl p-5 transition-all duration-200">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <div>
               <h4 className="text-base font-bold text-slate-900 dark:text-white">
