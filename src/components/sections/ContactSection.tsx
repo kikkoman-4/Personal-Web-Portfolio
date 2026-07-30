@@ -1,25 +1,64 @@
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Loader2, AlertCircle } from 'lucide-react';
 import { Github, Linkedin } from '../ui/Icons';
 import { PERSONAL_INFO, CONTACT_CONTENT } from '../../data/portfolioData';
 import AnimatedSection from '../ui/AnimatedSection';
 
 export default function ContactSection() {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [contactName, setContactName] = useState('');
   const [contactEmail, setContactEmail] = useState('');
   const [contactMessage, setContactMessage] = useState('');
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (contactName && contactEmail && contactMessage) {
-      setFormSubmitted(true);
-      setTimeout(() => {
-        setFormSubmitted(false);
+    setErrorMessage('');
+
+    if (!contactName.trim() || !contactEmail.trim() || !contactMessage.trim()) {
+      setErrorMessage('Please fill out all required fields.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const accessKey =
+      import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ||
+      import.meta.env.VITE_FORM_ACCESS_KEY ||
+      import.meta.env.FORM_ACCESS_KEY;
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: contactName,
+          email: contactEmail,
+          message: contactMessage,
+          subject: `Portfolio Message from ${contactName}`,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setFormSubmitted(true);
         setContactName('');
         setContactEmail('');
         setContactMessage('');
-      }, 5000);
+      } else {
+        setErrorMessage(result.message || 'Something went wrong. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      setErrorMessage('Failed to send message. Please check your network connection and try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -72,12 +111,25 @@ export default function ContactSection() {
                   <Send size={20} />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{CONTACT_CONTENT.successTitle}</h3>
-                <p className="text-slate-600 dark:text-slate-400 text-sm max-w-sm mx-auto">
+                <p className="text-slate-600 dark:text-slate-400 text-sm max-w-sm mx-auto mb-6">
                   {CONTACT_CONTENT.successMessage}
                 </p>
+                <button
+                  type="button"
+                  onClick={() => setFormSubmitted(false)}
+                  className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer"
+                >
+                  Send another message
+                </button>
               </div>
             ) : (
               <>
+                {errorMessage && (
+                  <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-sm flex items-center gap-2.5">
+                    <AlertCircle size={18} className="shrink-0" />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label htmlFor="name" className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Your Name</label>
@@ -85,10 +137,11 @@ export default function ContactSection() {
                       type="text" 
                       id="name" 
                       required 
+                      disabled={isSubmitting}
                       value={contactName} 
                       onChange={(e) => setContactName(e.target.value)} 
                       placeholder="Jane Doe" 
-                      className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition-colors"
+                      className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-50"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -97,10 +150,11 @@ export default function ContactSection() {
                       type="email" 
                       id="email" 
                       required 
+                      disabled={isSubmitting}
                       value={contactEmail} 
                       onChange={(e) => setContactEmail(e.target.value)} 
                       placeholder="jane@company.com" 
-                      className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition-colors"
+                      className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-50"
                     />
                   </div>
                 </div>
@@ -110,18 +164,29 @@ export default function ContactSection() {
                     id="message" 
                     required 
                     rows={4} 
+                    disabled={isSubmitting}
                     value={contactMessage} 
                     onChange={(e) => setContactMessage(e.target.value)} 
                     placeholder="Tell me about your project needs..." 
-                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                    className="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition-colors resize-none disabled:opacity-50"
                   ></textarea>
                 </div>
                 <button 
                   type="submit" 
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold h-12 rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
+                  disabled={isSubmitting}
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold h-12 rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
                 >
-                  <Send size={16} />
-                  <span>Send Message</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send size={16} />
+                      <span>Send Message</span>
+                    </>
+                  )}
                 </button>
               </>
             )}
